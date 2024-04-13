@@ -18,7 +18,7 @@ class _NavigationViewState extends State<NavigationView> {
   late int _selectedIndex;
 
   static const List<Widget> _screens = [
-    HomeVeiw(),
+    HomeView(),
     RecommendedView(),
     ScanView(),
     ShopingCartView(),

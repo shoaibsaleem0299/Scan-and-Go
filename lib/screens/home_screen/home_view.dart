@@ -1,186 +1,117 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/constants/app_colors.dart';
-import 'package:frontend/screens/home_screen/widgets/offer_card.dart';
+import 'package:frontend/screens/home_screen/widgets/heading_tile.dart';
 import 'package:frontend/screens/home_screen/widgets/user_tile.dart';
 import 'package:frontend/widgets/custom_category_card.dart';
 import 'package:frontend/widgets/custom_product_card.dart';
-// import 'package:frontend/widgets/custom_user_inputfield.dart';
 
-class HomeVeiw extends StatefulWidget {
-  const HomeVeiw({super.key});
-
-  @override
-  State<HomeVeiw> createState() => _HomeVeiwState();
-}
-
-class _HomeVeiwState extends State<HomeVeiw> {
-  List productData = [
-    {
-      'title': 'title',
-      'imageUrl': 'imageUrl',
-      'price': '123',
-      'subTitle': 'subTitle',
-      'status': 'status',
-    },
-    {
-      'title': 'title',
-      'imageUrl': 'imageUrl',
-      'price': '123',
-      'subTitle': 'subTitle',
-      'status': 'status',
-    },
-    {
-      'title': 'title',
-      'imageUrl': 'imageUrl',
-      'price': '123',
-      'subTitle': 'subTitle',
-      'status': 'status',
-    },
-  ];
-  List productCategoryData = [
-    {
-      'title': "Apple",
-      'imageUrl':
-          "https://www.fruitsmith.com/pub/media/catalog/product/cache/3d1197b96d84cacc4f40a78b1d94d82b/g/a/gala-apple-2_1.png",
-    },
-    {
-      'title': "Apple",
-      'imageUrl':
-          "https://www.fruitsmith.com/pub/media/catalog/product/cache/3d1197b96d84cacc4f40a78b1d94d82b/g/a/gala-apple-2_1.png",
-    },
-    {
-      'title': "Apple",
-      'imageUrl':
-          "https://www.fruitsmith.com/pub/media/catalog/product/cache/3d1197b96d84cacc4f40a78b1d94d82b/g/a/gala-apple-2_1.png",
-    },
-  ];
+class HomeView extends StatelessWidget {
+  const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(6.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const SizedBox(
-                height: 5.0,
-              ),
               const UserTile(
-                name: "User Name",
-                imageUrl: "",
-              ),
-              const SizedBox(
-                height: 16.0,
-              ),
-              ListTile(
-                leading: const Text(
-                  "Categories",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                trailing: GestureDetector(
-                  onTap: () {},
-                  child: Text(
-                    "See All",
-                    style: TextStyle(fontSize: 16, color: AppColor.primary),
-                  ),
-                ),
-              ),
-
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //   children: [
-              //     CustomCategoryCard(
-              //       title: "Apple",
-              //      onTap: () {},
-              //     ),
-              //     Cu imageUrl:
-              //           "https://www.fruitsmith.com/pub/media/catalog/product/cache/3d1197b96d84cacc4f40a78b1d94d82b/g/a/gala-apple-2_1.png",
-              //       stomCategoryCard(
-              //       title: "Apple",
-              //       imageUrl:
-              //           "https://www.fruitsmith.com/pub/media/catalog/product/cache/3d1197b96d84cacc4f40a78b1d94d82b/g/a/gala-apple-2_1.png",
-              //       onTap: () {},
-              //     ),
-              //     CustomCategoryCard(
-              //       title: "Apple",
-              //       imageUrl:
-              //           "https://www.fruitsmith.com/pub/media/catalog/product/cache/3d1197b96d84cacc4f40a78b1d94d82b/g/a/gala-apple-2_1.png",
-              //       onTap: () {},
-              //     ),
-              //   ],
-              // ),
-              // GridView.count(
-              //   crossAxisSpacing: 5,
-              //   scrollDirection: Axis.horizontal,
-              //   crossAxisCount: 3,
-              //   children: List.generate(productCategoryData.length, (index) {
-              //     return Center(
-              //         child: CustomCategoryCard(
-              //       title: productCategoryData[index]['title'],
-              //       imageUrl: productCategoryData[index]['imageUrl'],
-              //       onTap: () {},
-              //     ));
-              //   }),
-              // ),
-              ListTile(
-                leading: const Text(
-                  "Today's Offers",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                trailing: GestureDetector(
-                  onTap: () {},
-                  child: const Text(
-                    "See All",
-                    style: TextStyle(
-                        fontSize: 16, color: Color.fromARGB(255, 2, 180, 70)),
-                  ),
-                ),
-              ),
-              OfferCard(
-                title: "50%",
-                imageUrl:
-                    "https://www.theproducemoms.com/wp-content/uploads/2022/02/Broccoli-Rabe.png",
-                onTap: () {},
-                subTitle: "Limited Offer",
-              ),
-              const ListTile(
-                title: Text(
-                  "Recommended For You",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ),
-              SingleChildScrollView(
-                padding: EdgeInsets.only(left: 16, right: 16),
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  name: "shoaib saleem",
+                  imageUrl:
+                      "https://avatars.githubusercontent.com/u/144604674?v=4"),
+              Expanded(
+                child: Column(
                   children: [
-                    CustomProductCard(
-                        title: "title",
-                        imageUrl: "imageUrl",
-                        price: "price",
-                        onTap: () {},
-                        subTitle: "subTitle",
-                        status: "status"),
-                    CustomProductCard(
-                        title: "title",
-                        imageUrl: "imageUrl",
-                        price: "price",
-                        onTap: () {},
-                        subTitle: "subTitle",
-                        status: "status"),
-                    CustomProductCard(
-                        title: "title",
-                        imageUrl: "imageUrl",
-                        price: "price",
-                        onTap: () {},
-                        subTitle: "subTitle",
-                        status: "status"),
+                    HeadingTile(
+                      title: "Categories",
+                      goTO: () {},
+                    ),
+                    Expanded(
+                      child: GridView(
+                        padding: const EdgeInsets.all(6.0),
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 4,
+                        ),
+                        children: [
+                          CustomCategoryCard(
+                            title: "Title",
+                            imageUrl:
+                                "https://static.wixstatic.com/media/6d3e87_fccea9f825fe4bb5b6f09e9ebb86aabd~mv2.png/v1/fill/w_557,h_414,al_c,lg_1,q_85/6d3e87_fccea9f825fe4bb5b6f09e9ebb86aabd~mv2.png",
+                            onTap: () {},
+                          ),
+                          CustomCategoryCard(
+                            title: "Title",
+                            imageUrl:
+                                "https://static.wixstatic.com/media/6d3e87_fccea9f825fe4bb5b6f09e9ebb86aabd~mv2.png/v1/fill/w_557,h_414,al_c,lg_1,q_85/6d3e87_fccea9f825fe4bb5b6f09e9ebb86aabd~mv2.png",
+                            onTap: () {},
+                          ),
+                          CustomCategoryCard(
+                            title: "Title",
+                            imageUrl:
+                                "https://static.wixstatic.com/media/6d3e87_fccea9f825fe4bb5b6f09e9ebb86aabd~mv2.png/v1/fill/w_557,h_414,al_c,lg_1,q_85/6d3e87_fccea9f825fe4bb5b6f09e9ebb86aabd~mv2.png",
+                            onTap: () {},
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-              )
+              ),
+              const SizedBox(height: 8.0),
+              Expanded(
+                flex: 2,
+                child: Column(
+                  children: [
+                    HeadingTile(
+                      title: "Today's Offer",
+                      goTO: () {},
+                    ),
+                    Expanded(
+                      child: Image.network(
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdhgFhMqJvOIrYVgqUtkPCtXkcElwha0F_cN-DGbN7_g&s",
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Column(
+                  children: [
+                    HeadingTile(
+                      title: "Recommended For You",
+                      goTO: () {},
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 4,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: const EdgeInsets.all(8.0),
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            child: CustomProductCard(
+                              productName: "Apple",
+                              imageUrl:
+                                  "https://static.wixstatic.com/media/6d3e87_fccea9f825fe4bb5b6f09e9ebb86aabd~mv2.png/v1/fill/w_557,h_414,al_c,lg_1,q_85/6d3e87_fccea9f825fe4bb5b6f09e9ebb86aabd~mv2.png",
+                              price: "212",
+                              onTap: () {},
+                              category: "fruit",
+                              status: "availabe",
+                              description: 'this is product Description',
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
