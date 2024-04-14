@@ -1,0 +1,150 @@
+import 'package:flutter/material.dart';
+import 'package:frontend/screens/navigation_screen/navigation_view.dart';
+import 'package:frontend/widgets/app_button.dart';
+import 'package:frontend/widgets/item_counter.dart';
+
+class CartProductView extends StatelessWidget {
+  final String productId;
+  final String name;
+  final String category;
+  final double initialPrice;
+  final int initialQuantity;
+  final String imageUrl;
+  final String description;
+  final String location;
+  final String status;
+  final Function(Map<String, dynamic>) onAddToCart;
+
+  const CartProductView({
+    super.key,
+    required this.name,
+    required this.category,
+    required this.initialPrice,
+    required this.initialQuantity,
+    required this.description,
+    required this.location,
+    required this.status,
+    required this.imageUrl,
+    required this.onAddToCart,
+    required this.productId,
+  });
+
+  @override
+  @override
+  Widget build(BuildContext context) {
+    int updatedQuantity = 1;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(name),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+      ),
+      body: Center(
+        child: Container(
+          margin: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 5,
+                blurRadius: 7,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12.0),
+                child: Image.network(
+                  imageUrl,
+                  height: 200,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                category,
+                style: const TextStyle(
+                  color: Colors.grey,
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                "Status: $status",
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+              const SizedBox(height: 5),
+              Text(
+                "Location: $location",
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                "Description",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+              const SizedBox(height: 5),
+              Text(
+                description,
+                style: const TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                "Price",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+              ItemCounter(
+                initialValue: initialQuantity,
+                pricePerItem: initialPrice,
+                onChanged: (newQuantity) {
+                  updatedQuantity = newQuantity;
+                },
+              ),
+              AppButton(
+                buttonText: "Add To Cart",
+                onButtonTap: () {
+                  onAddToCart(
+                    {
+                      'productId': productId,
+                      'name': name,
+                      'category': category,
+                      'price': initialPrice * updatedQuantity,
+                      'quantity': updatedQuantity,
+                    },
+                  );
+                  Navigator.pushReplacement<void, void>(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => const NavigationView(),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

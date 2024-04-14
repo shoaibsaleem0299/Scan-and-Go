@@ -62,7 +62,7 @@ class RecommendedView extends StatelessWidget {
                   status: "availabe",
                   description: 'this is product Description',
                 ),
-                Spacer(),
+                const Spacer(),
               ],
             ),
           ),
