@@ -87,6 +87,7 @@ class RecommendedView extends StatefulWidget {
 }
 
 class _RecommendedViewState extends State<RecommendedView> {
+  List<Product> favorites = [];
   getProducts() async {
     try {
       var url = Uri.parse("http://192.168.100.2/api/all_products_data.php");
@@ -129,6 +130,11 @@ class _RecommendedViewState extends State<RecommendedView> {
                       status: snapshot.data[index]['status'],
                       onTap: () {},
                       description: snapshot.data[index]['description'],
+                      onAddToFavorites: (Product) {
+                        setState(() {
+                          favorites.add(Product);
+                        });
+                      },
                     );
                   },
                 );

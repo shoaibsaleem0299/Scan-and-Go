@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/constants/app_colors.dart';
+import 'package:frontend/screens/login_screen/login.dart';
 import 'package:frontend/screens/navigation_screen/navigation_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  State<SplashScreen> createState() => SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
@@ -17,12 +19,10 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   _navigateToHome() async {
-    await Future.delayed(const Duration(milliseconds: 1500), () {});
-    Navigator.pushReplacement(
-        // ignore: use_build_context_synchronously
-        context,
-        MaterialPageRoute(builder: (context) => const NavigationView()));
+    whereToGo();
   }
+
+  static const String loggedInKey = "Login";
 
   @override
   Widget build(BuildContext context) {
@@ -39,5 +39,30 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
       ),
     );
+  }
+
+  void whereToGo() async {
+    var sharedPref = await SharedPreferences.getInstance();
+    var isLoggedIn = sharedPref.getBool(loggedInKey);
+
+    await Future.delayed(const Duration(milliseconds: 1500), () {});
+    if (isLoggedIn != null) {
+      if (isLoggedIn) {
+        Navigator.pushReplacement(
+            // ignore: use_build_context_synchronously
+            context,
+            MaterialPageRoute(builder: (context) => const NavigationView()));
+      } else {
+        Navigator.pushReplacement(
+            // ignore: use_build_context_synchronously
+            context,
+            MaterialPageRoute(builder: (context) => const LogIn()));
+      }
+    } else {
+      Navigator.pushReplacement(
+          // ignore: use_build_context_synchronously
+          context,
+          MaterialPageRoute(builder: (context) => const LogIn()));
+    }
   }
 }

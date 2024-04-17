@@ -17,6 +17,7 @@ class CustomCategoryCard extends StatelessWidget {
       child: Column(
         children: [
           Container(
+            height: 50,
             padding: const EdgeInsets.all(6.0),
             // margin: const EdgeInsets.all(6.0),
             decoration: BoxDecoration(
@@ -33,7 +34,7 @@ class CustomCategoryCard extends StatelessWidget {
             ),
             child: Image.network(
               imageUrl,
-              width: 50,
+              width: 40,
             ),
           ),
           Text(

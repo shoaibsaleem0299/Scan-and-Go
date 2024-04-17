@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/navigation_screen/navigation_view.dart';
 import 'package:frontend/screens/signup_screen/sign_up.dart';
+import 'package:frontend/screens/splash_screen/splash.dart';
+import 'package:frontend/widgets/app_button.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LogIn extends StatefulWidget {
   const LogIn({super.key});
@@ -25,7 +28,11 @@ class _LogInState extends State<LogIn> {
     );
 
     if (response.statusCode == 200) {
-      Navigator.push(
+      var sharedPref = await SharedPreferences.getInstance();
+      sharedPref.setBool(SplashScreenState.loggedInKey, true);
+
+      Navigator.pushReplacement(
+        // ignore: use_build_context_synchronously
         context,
         MaterialPageRoute(
           builder: (context) => const NavigationView(),
@@ -134,26 +141,8 @@ class _LogInState extends State<LogIn> {
                 ),
                 const SizedBox(height: 16.0),
                 Center(
-                    child: ElevatedButton(
-                  onPressed: signIn,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 2, 180, 70),
-                    elevation: 3, // Elevation
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10), // BorderRadius
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12, horizontal: 140.0), // Padding
-                  ),
-                  child: const Text(
-                    'Sign In',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                )),
+                    child:
+                        AppButton(buttonText: "Log In", onButtonTap: signIn)),
                 const SizedBox(
                   height: 20.0,
                 ),
