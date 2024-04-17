@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/login_screen/login.dart';
 import 'package:frontend/screens/splash_screen/splash.dart';
 
 void main(List<String> args) {
@@ -13,7 +14,8 @@ class ScanAndGO extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: "Scan And Go",
-      home: SplashScreen(),
+      // home: SplashScreen(),
+      home: LogIn(),
     );
   }
 }
