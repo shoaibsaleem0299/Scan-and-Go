@@ -87,22 +87,18 @@ class RecommendedView extends StatefulWidget {
 }
 
 class _RecommendedViewState extends State<RecommendedView> {
-  late Future<List<Product>> futureProducts;
-
-  @override
-  void initState() {
-    super.initState();
-    futureProducts = fetchProducts();
-  }
-
-  Future<List<Product>> fetchProducts() async {
-    final response =
-        await http.get(Uri.parse('http://10.0.2.2/api/all_products_data.php'));
-    if (response.statusCode == 200) {
-      Iterable list = json.decode(response.body);
-      return List<Product>.from(list.map((model) => Product.fromJson(model)));
-    } else {
-      throw Exception('Failed to load products');
+  getProducts() async {
+    try {
+      var url = Uri.parse("http://192.168.100.2/api/all_products_data.php");
+      var response = await http.get(url);
+      if (response.statusCode == 200) {
+        var responseBody = jsonDecode(response.body);
+        return responseBody;
+      } else {
+        const Center(child: Text("No Items Found"));
+      }
+    } catch (e) {
+      const Center(child: Text("No Items Found"));
     }
   }
 
@@ -114,36 +110,32 @@ class _RecommendedViewState extends State<RecommendedView> {
       ),
       body: SafeArea(
         child: Center(
-          child: FutureBuilder<List<Product>>(
-            future: futureProducts,
-            builder: (context, snapshot) {
+          child: FutureBuilder(
+            future: getProducts(),
+            builder: (context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
-                List<Product> products = snapshot.data!;
-                return Padding(
-                  padding: const EdgeInsets.all(6.0),
-                  child: GridView.builder(
-                    padding: const EdgeInsets.all(6.0),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 10,
-                    ),
-                    itemCount: products.length,
-                    itemBuilder: (context, index) {
-                      return CustomProductCard(
-                        productName: products[index].productName,
-                        imageUrl: products[index].imageUrl,
-                        price: products[index].price,
-                        onTap: () {},
-                        category: products[index].category,
-                        status: products[index].status,
-                        description: products[index].description,
-                      );
-                    },
+                return GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 4,
                   ),
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return CustomProductCard(
+                      productName: snapshot.data[index]['name'],
+                      category: snapshot.data[index]['category'],
+                      price: snapshot.data[index]['price'],
+                      imageUrl: snapshot.data[index]['imageUrl'],
+                      status: snapshot.data[index]['status'],
+                      onTap: () {},
+                      description: snapshot.data[index]['description'],
+                    );
+                  },
                 );
               } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
               }
               // By default, show a loading spinner
               return const CircularProgressIndicator();
@@ -151,35 +143,6 @@ class _RecommendedViewState extends State<RecommendedView> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class Product {
-  final String productName;
-  final String imageUrl;
-  final String price;
-  final String category;
-  final String status;
-  final String description;
-
-  Product({
-    required this.productName,
-    required this.imageUrl,
-    required this.price,
-    required this.category,
-    required this.status,
-    required this.description,
-  });
-
-  factory Product.fromJson(Map<String, dynamic> json) {
-    return Product(
-      productName: json['productName'],
-      imageUrl: json['imageUrl'],
-      price: json['price'],
-      category: json['category'],
-      status: json['status'],
-      description: json['description'],
     );
   }
 }

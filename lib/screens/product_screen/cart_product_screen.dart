@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/constants/app_colors.dart';
 import 'package:frontend/screens/navigation_screen/navigation_view.dart';
 import 'package:frontend/widgets/app_button.dart';
 import 'package:frontend/widgets/item_counter.dart';
@@ -37,7 +38,7 @@ class CartProductView extends StatelessWidget {
       appBar: AppBar(
         title: Text(name),
         centerTitle: true,
-        backgroundColor: Colors.blue,
+        backgroundColor: AppColor.primary,
       ),
       body: Center(
         child: Container(
