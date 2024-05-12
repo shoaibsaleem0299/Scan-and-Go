@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:frontend/constants/app_colors.dart';
 import 'package:frontend/screens/home_screen/home_view.dart';
 import 'package:frontend/screens/profile_screen/profile_screen.dart';
-import 'package:frontend/screens/profile_screen/profile_view.dart';
 import 'package:frontend/screens/recommended_screen/favorite_view.dart';
 import 'package:frontend/screens/scan_screen/scan_view.dart';
 import 'package:frontend/screens/shopping_cart_screen/shoping_cart_view.dart';

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/constants/app_colors.dart';
-import 'package:frontend/widgets/custom_product_card.dart';
 
 class FavoriteView extends StatelessWidget {
   const FavoriteView({super.key});

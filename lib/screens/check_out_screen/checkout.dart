@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/navigation_screen/navigation_view.dart';
 import 'package:frontend/widgets/app_button.dart';
-import 'package:frontend/widgets/custom_user_inputfield.dart';
 
 class CheckoutApp extends StatelessWidget {
   @override

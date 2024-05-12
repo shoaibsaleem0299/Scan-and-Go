@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/screens/login_screen/login.dart';
-import 'package:frontend/screens/navigation_screen/navigation_view.dart';
-import 'package:frontend/screens/profile_screen/profile_screen.dart';
-import 'package:frontend/screens/profile_screen/profile_view.dart';
-import 'package:frontend/screens/signup_screen/sign_up.dart';
-import 'package:frontend/screens/splash_screen/splash.dart';
+import 'package:frontend/screens/splash_screen/splash_view.dart';
 
 void main(List<String> args) {
   runApp(const ScanAndGO());

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/signup_screen/sign_up.dart';
-import 'package:frontend/ui_functions/login_function/login_funtion.dart';
+import 'package:frontend/ui_functions/login_function.dart';
 import 'package:frontend/widgets/app_button.dart';
 
 class LogIn extends StatefulWidget {
