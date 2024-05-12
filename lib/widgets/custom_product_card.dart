@@ -19,7 +19,7 @@ class Product {
   });
 }
 
-List<Product> favorites = []; // Add this line to declare the favorites list
+List<Product> favorites = [];
 
 class CustomProductCard extends StatefulWidget {
   final String productName;
@@ -57,7 +57,6 @@ class _CustomProductCardState extends State<CustomProductCard> {
       child: Column(
         children: [
           Container(
-            // height: 150,
             padding: const EdgeInsets.all(8.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),

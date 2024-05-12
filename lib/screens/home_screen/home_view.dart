@@ -25,10 +25,7 @@ class _HomeViewState extends State<HomeView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const UserTile(
-                  name: "shoaib saleem",
-                  imageUrl:
-                      "https://avatars.githubusercontent.com/u/144604674?v=4"),
+              const UserTile(name: "user", imageUrl: ""),
               Expanded(
                 child: Column(
                   children: [

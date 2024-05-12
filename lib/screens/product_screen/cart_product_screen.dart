@@ -42,6 +42,7 @@ class CartProductView extends StatelessWidget {
       ),
       body: Center(
         child: Container(
+          // height: MediaQuery.of(context).size.height * 0.8,
           margin: const EdgeInsets.all(20),
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
@@ -66,6 +67,11 @@ class CartProductView extends StatelessWidget {
                   height: 200,
                   width: double.infinity,
                   fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Image.asset(
+                      'assets/images/app_image.png',
+                    );
+                  },
                 ),
               ),
               const SizedBox(height: 10),

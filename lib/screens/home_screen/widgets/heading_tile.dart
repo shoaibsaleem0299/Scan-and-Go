@@ -13,6 +13,13 @@ class HeadingTile extends StatelessWidget {
         title,
         style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
       ),
+      trailing: GestureDetector(
+        onTap: goTO,
+        child: Text(
+          "See All",
+          style: TextStyle(fontSize: 12, color: AppColor.primary),
+        ),
+      ),
     );
   }
 }

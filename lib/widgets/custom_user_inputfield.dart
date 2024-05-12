@@ -2,16 +2,13 @@ import 'package:flutter/material.dart';
 
 class UserInputField extends StatefulWidget {
   final String labelText;
-  final String hintText;
   final String prefixIcon;
-  final String suffixIcon;
+
   final TextEditingController? controller;
   const UserInputField({
     super.key,
     required this.labelText,
-    required this.hintText,
     required this.prefixIcon,
-    required this.suffixIcon,
     this.controller,
   });
 
@@ -26,12 +23,15 @@ class _UserInputFieldState extends State<UserInputField> {
       'account_circle': Icons.account_circle,
       'search': Icons.search,
       'microphone': Icons.mic_rounded,
+      'person': Icons.person,
+      'payment': Icons.payments_outlined,
+      'history': Icons.history,
+      'help': Icons.help_outline,
+      'receipts': Icons.receipt_long,
       // Add more mappings as needed
     };
 
     IconData prefixIconData = iconDataMap[widget.prefixIcon] ?? Icons.error;
-    IconData suffixIconData = iconDataMap[widget.suffixIcon] ?? Icons.error;
-
     return TextField(
       controller: widget.controller,
       decoration: InputDecoration(
@@ -45,7 +45,6 @@ class _UserInputFieldState extends State<UserInputField> {
           color: Colors.black,
           fontWeight: FontWeight.w500,
         ),
-        hintText: widget.hintText,
         hintStyle: const TextStyle(color: Colors.black),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16.0),
@@ -54,7 +53,6 @@ class _UserInputFieldState extends State<UserInputField> {
         filled: true,
         fillColor: const Color.fromARGB(255, 237, 237, 237),
         prefixIcon: Icon(prefixIconData),
-        suffixIcon: IconButton(onPressed: () {}, icon: Icon(suffixIconData)),
       ),
     );
   }

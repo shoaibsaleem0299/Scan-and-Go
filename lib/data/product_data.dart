@@ -27,7 +27,8 @@ List<Map> Products = [
     "status": "Available",
     "location": "Second Shelf",
     "description":
-        "Apples are a good source of nutrients, including fiber, vitamin C, and antioxidants which can help support healthy digestion, brain health, and weight management."
+        "Apples are a good source of nutrients, including fiber, vitamin C, and antioxidants which can help support healthy digestion, brain health, and weight management.",
+    "isFavorite": false,
   },
   {
     "name": "Banana",
@@ -38,7 +39,8 @@ List<Map> Products = [
     "status": "Available",
     "location": "Fruit Section",
     "description":
-        "Bananas are rich in potassium, vitamin C, and vitamin B6. They are a convenient and nutritious snack."
+        "Bananas are rich in potassium, vitamin C, and vitamin B6. They are a convenient and nutritious snack.",
+    "isFavorite": false,
   },
   {
     "name": "Milk",
@@ -49,7 +51,8 @@ List<Map> Products = [
     "status": "Available",
     "location": "Dairy Aisle",
     "description":
-        "Milk is a good source of calcium and protein, essential for bone health and muscle repair."
+        "Milk is a good source of calcium and protein, essential for bone health and muscle repair.",
+    "isFavorite": false,
   },
   {
     "name": "Eggs",
@@ -60,7 +63,8 @@ List<Map> Products = [
     "status": "Available",
     "location": "Refrigerated Section",
     "description":
-        "Eggs are a versatile food rich in protein, vitamins, and minerals. They can be cooked in various ways."
+        "Eggs are a versatile food rich in protein, vitamins, and minerals. They can be cooked in various ways.",
+    "isFavorite": false,
   },
   {
     "name": "Bread",
@@ -71,7 +75,8 @@ List<Map> Products = [
     "status": "Available",
     "location": "Bakery Section",
     "description":
-        "Bread is a staple food made from flour, yeast, water, and salt. It's a source of carbohydrates and provides energy."
+        "Bread is a staple food made from flour, yeast, water, and salt. It's a source of carbohydrates and provides energy.",
+    "isFavorite": false,
   },
   {
     "name": "Beaf",
@@ -82,7 +87,8 @@ List<Map> Products = [
     "status": "Available",
     "location": "Meat Department",
     "description":
-        "Chicken breast is a lean source of protein, low in fat and calories. It's versatile and can be cooked in various dishes."
+        "Chicken breast is a lean source of protein, low in fat and calories. It's versatile and can be cooked in various dishes.",
+    "isFavorite": false,
   },
   {
     "name": "Spinach",
@@ -93,7 +99,8 @@ List<Map> Products = [
     "status": "Available",
     "location": "Produce Section",
     "description":
-        "Spinach is a leafy green vegetable rich in iron, vitamins, and antioxidants. It's beneficial for overall health."
+        "Spinach is a leafy green vegetable rich in iron, vitamins, and antioxidants. It's beneficial for overall health.",
+    "isFavorite": false,
   },
   {
     "name": "Tomatoes",
@@ -104,7 +111,8 @@ List<Map> Products = [
     "status": "Available",
     "location": "Produce Section",
     "description":
-        "Tomatoes are rich in vitamins and antioxidants. They can be eaten raw in salads or cooked in various dishes."
+        "Tomatoes are rich in vitamins and antioxidants. They can be eaten raw in salads or cooked in various dishes.",
+    "isFavorite": false,
   },
   {
     "name": "Coffee",
@@ -115,7 +123,8 @@ List<Map> Products = [
     "status": "Available",
     "location": "Beverages Aisle",
     "description":
-        "Coffee is a popular beverage made from roasted coffee beans. It contains caffeine and antioxidants."
+        "Coffee is a popular beverage made from roasted coffee beans. It contains caffeine and antioxidants.",
+    "isFavorite": false,
   },
   {
     "name": "Orange",
@@ -126,7 +135,8 @@ List<Map> Products = [
     "status": "Available",
     "location": "Beverages Aisle",
     "description":
-        "Orange juice is a refreshing beverage rich in vitamin C and other nutrients. It's a popular breakfast drink."
+        "Orange juice is a refreshing beverage rich in vitamin C and other nutrients. It's a popular breakfast drink.",
+    "isFavorite": false,
   }
 ];
 

@@ -5,7 +5,7 @@ class CustomCartItem extends StatefulWidget {
   final String imageUrl;
   final String title;
   final String subtitle;
-  final double price;
+  final String price;
   final void Function() removeItem;
   const CustomCartItem({
     super.key,
@@ -71,6 +71,11 @@ class _CustomCartItemState extends State<CustomCartItem> {
                       widget.imageUrl,
                       width: 85,
                       fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(
+                          'assets/images/app_image.png',
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -94,7 +99,7 @@ class _CustomCartItemState extends State<CustomCartItem> {
                       ),
                     ),
                     Text(
-                      "Rs. ${(widget.price * quantity).toStringAsFixed(2)}",
+                      "Rs. ${widget.price}",
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -105,51 +110,14 @@ class _CustomCartItemState extends State<CustomCartItem> {
                 ),
               ],
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    widget.removeItem(); // Corrected invocation
-                  },
-                  icon: const Icon(
-                    Icons.delete_outline,
-                    size: 20,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          if (quantity > 1) {
-                            quantity--;
-                          }
-                        });
-                      },
-                      icon: const Icon(
-                        Icons.remove,
-                        size: 15,
-                      ),
-                    ),
-                    Text(
-                      quantity.toString(),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          quantity++;
-                        });
-                      },
-                      icon: const Icon(
-                        Icons.add,
-                        size: 15,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+            IconButton(
+              onPressed: () {
+                widget.removeItem();
+              },
+              icon: const Icon(
+                Icons.delete_outline,
+                size: 20,
+              ),
             ),
           ],
         ),

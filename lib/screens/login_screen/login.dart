@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/screens/navigation_screen/navigation_view.dart';
 import 'package:frontend/screens/signup_screen/sign_up.dart';
-import 'package:frontend/screens/splash_screen/splash.dart';
+import 'package:frontend/ui_functions/login_function/login_funtion.dart';
 import 'package:frontend/widgets/app_button.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LogIn extends StatefulWidget {
   const LogIn({super.key});
@@ -16,50 +13,6 @@ class LogIn extends StatefulWidget {
 class _LogInState extends State<LogIn> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
-  Future<void> signIn() async {
-    const url = 'http://10.0.2.2/api/signin.php';
-    final response = await http.post(
-      Uri.parse(url),
-      body: {
-        'email': _emailController.text,
-        'password': _passwordController.text,
-      },
-    );
-
-    if (response.statusCode == 200) {
-      var sharedPref = await SharedPreferences.getInstance();
-      sharedPref.setBool(SplashScreenState.loggedInKey, true);
-
-      Navigator.pushReplacement(
-        // ignore: use_build_context_synchronously
-        context,
-        MaterialPageRoute(
-          builder: (context) => const NavigationView(),
-        ),
-      );
-    } else {
-      // Registration failed
-      // Handle error
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Error'),
-            content: Text('Invalid email or password.'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -141,8 +94,14 @@ class _LogInState extends State<LogIn> {
                 ),
                 const SizedBox(height: 16.0),
                 Center(
-                    child:
-                        AppButton(buttonText: "Log In", onButtonTap: signIn)),
+                  child: AppButton(
+                    buttonText: "Log In",
+                    onButtonTap: () {
+                      LoginFunction.signIn(
+                          context, _emailController, _passwordController);
+                    },
+                  ),
+                ),
                 const SizedBox(
                   height: 20.0,
                 ),
@@ -236,7 +195,7 @@ class _LogInState extends State<LogIn> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      "New to Here? Register Yourself",
+                      "Don't have an account? ",
                       style: TextStyle(fontSize: 16),
                     ),
                     GestureDetector(

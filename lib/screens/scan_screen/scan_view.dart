@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:frontend/constants/app_colors.dart';
+import 'package:frontend/screens/profile_screen/profile_view.dart';
 import 'package:frontend/widgets/app_button.dart';
 
 class ScanView extends StatefulWidget {
@@ -77,7 +78,13 @@ class _ScanViewState extends State<ScanView> {
                       children: [
                         AppButton(
                             buttonText: "Tap to Scan",
-                            onButtonTap: scanBarcodeNormal),
+                            onButtonTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ProfileView()));
+                            }),
                         Text("Barcode value : $_scanBarcodeResult"),
                       ],
                     ),
