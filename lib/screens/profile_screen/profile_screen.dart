@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/constants/app_colors.dart';
+import 'package:frontend/screens/login_screen/login.dart';
 import 'package:frontend/screens/profile_screen/edit_screen.dart';
 import 'package:frontend/screens/profile_screen/help_screen.dart';
 import 'package:frontend/screens/profile_screen/history_screen.dart';
 import 'package:frontend/screens/profile_screen/payment_screen.dart';
-import 'package:frontend/screens/profile_screen/receipts.screen.dart';
 import 'package:frontend/screens/profile_screen/widget/custom_product_tile.dart';
+import 'package:frontend/screens/splash_screen/splash_view.dart';
+import 'package:frontend/widgets/app_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -15,18 +19,21 @@ class ProfileScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           "Profile",
-          style: TextStyle(fontWeight: FontWeight.w700),
+          style: TextStyle(fontWeight: FontWeight.w500),
         ),
+        backgroundColor: AppColor.primary,
+        centerTitle: true,
       ),
       body: SafeArea(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              margin: const EdgeInsets.symmetric(vertical: 6.0),
+              margin: const EdgeInsets.symmetric(vertical: 12.0),
               child: Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Stack(
                       children: [
@@ -36,20 +43,20 @@ class ProfileScreen extends StatelessWidget {
                         ),
                         IconButton(
                           onPressed: () {},
-                          icon: Icon(Icons.add_a_photo),
+                          icon: const Icon(Icons.add_a_photo),
                         ),
                       ],
                     ),
                     const Padding(
                       padding: EdgeInsets.only(top: 6, bottom: 2),
                       child: Text(
-                        "Shoaib Saleem",
+                        "User Name",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 17),
                       ),
                     ),
                     const Text(
-                      "shoaib0299@gmail.com",
+                      "User Email",
                       style: TextStyle(
                           fontWeight: FontWeight.w400, letterSpacing: 1),
                     ),
@@ -92,18 +99,7 @@ class ProfileScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const HistoryScreen()),
-                        );
-                      },
-                    ),
-                    CustomProfileTile(
-                      title: "Receipts",
-                      prefixIcon: "receipts",
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ReceiptsScreen()),
+                              builder: (context) => HistoryScreen()),
                         );
                       },
                     ),
@@ -118,6 +114,21 @@ class ProfileScreen extends StatelessWidget {
                         );
                       },
                     ),
+                    AppButton(
+                        buttonText: "Sign Out",
+                        onButtonTap: () async {
+                          var sharePref = await SharedPreferences.getInstance();
+                          sharePref.setString(
+                              SplashScreenState.loggedInKey, "");
+
+                          Navigator.pushReplacement(
+                            // ignore: use_build_context_synchronously
+                            context,
+                            MaterialPageRoute(
+                              builder: ((context) => const LogIn()),
+                            ),
+                          );
+                        }),
                   ],
                 ),
               ),

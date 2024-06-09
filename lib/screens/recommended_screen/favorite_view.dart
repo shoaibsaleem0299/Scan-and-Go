@@ -36,11 +36,8 @@ class FavoriteView extends StatelessWidget {
                   leading: Image.network(
                     "",
                     errorBuilder: (context, error, stackTrace) {
-                      // If the network image fails to load, display an asset image instead
                       return Image.asset(
                         'assets/images/app_image.png',
-
-                        // You can also provide additional properties here if needed
                       );
                     },
                   ),

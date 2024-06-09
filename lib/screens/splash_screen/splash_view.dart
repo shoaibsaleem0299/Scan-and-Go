@@ -50,15 +50,20 @@ class SplashScreenState extends State<SplashScreen> {
     await Future.delayed(const Duration(milliseconds: 1500), () {});
     if (isLoggedIn != null) {
       if (isLoggedIn) {
+        // ignore: use_build_context_synchronously
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const NavigationView()));
       } else {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const LogIn()));
+            // ignore: use_build_context_synchronously
+            context,
+            MaterialPageRoute(builder: (context) => const LogIn()));
       }
     } else {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const LogIn()));
+          // ignore: use_build_context_synchronously
+          context,
+          MaterialPageRoute(builder: (context) => const LogIn()));
     }
   }
 }

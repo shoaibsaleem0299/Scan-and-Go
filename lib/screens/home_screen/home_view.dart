@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/constants/api_constant.dart';
 import 'package:frontend/data/product_data.dart';
 import 'package:frontend/screens/home_screen/widgets/heading_tile.dart';
 import 'package:frontend/screens/home_screen/widgets/user_tile.dart';
@@ -6,6 +7,7 @@ import 'package:frontend/screens/product_screen/product_view.dart';
 import 'package:frontend/screens/recommended_screen/recommend_products.dart';
 import 'package:frontend/widgets/custom_category_card.dart';
 import 'package:frontend/widgets/custom_product_card.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -16,6 +18,27 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   List<Product> favorites = [];
+  String name = '';
+
+  @override
+  void initState() {
+    super.initState();
+    getName();
+  }
+
+  Future<String?> userName() async {
+    var sharedPref = await SharedPreferences.getInstance();
+    String? username = sharedPref.getString(UserData.NAMEKEY);
+    return username;
+  }
+
+  Future<void> getName() async {
+    String? username = await userName();
+    setState(() {
+      name = username ?? "Username";
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,13 +48,19 @@ class _HomeViewState extends State<HomeView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const UserTile(name: "user", imageUrl: ""),
+              UserTile(
+                  name: name,
+                  imageUrl:
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLajqxtExv39N_eWsCjF54VYGTLE6YvfUi7aCaHvRPlg&s"),
               Expanded(
                 child: Column(
                   children: [
-                    HeadingTile(
-                      title: "Categories",
-                      goTO: () {},
+                    const ListTile(
+                      leading: Text(
+                        "Categories",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
                     ),
                     Expanded(
                       child: GridView(
@@ -72,9 +101,12 @@ class _HomeViewState extends State<HomeView> {
                 flex: 2,
                 child: Column(
                   children: [
-                    HeadingTile(
-                      title: "Today's Offer",
-                      goTO: () {},
+                    const ListTile(
+                      leading: Text(
+                        "Today's Offer",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
                     ),
                     Expanded(
                       child: Image.network(
@@ -93,10 +125,11 @@ class _HomeViewState extends State<HomeView> {
                       title: "Recommended For You",
                       goTO: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const RecommendedProducts()));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const RecommendedProducts(),
+                          ),
+                        );
                       },
                     ),
                     Expanded(

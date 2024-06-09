@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 class UserInputField extends StatefulWidget {
   final String labelText;
   final String prefixIcon;
+  final String nullText;
+  final bool boolText;
 
   final TextEditingController? controller;
   const UserInputField({
@@ -10,6 +12,8 @@ class UserInputField extends StatefulWidget {
     required this.labelText,
     required this.prefixIcon,
     this.controller,
+    required this.nullText,
+    required this.boolText,
   });
 
   @override
@@ -28,16 +32,25 @@ class _UserInputFieldState extends State<UserInputField> {
       'history': Icons.history,
       'help': Icons.help_outline,
       'receipts': Icons.receipt_long,
+      'email': Icons.email_outlined,
+      'password': Icons.remove_red_eye_outlined,
       // Add more mappings as needed
     };
 
     IconData prefixIconData = iconDataMap[widget.prefixIcon] ?? Icons.error;
-    return TextField(
+    return TextFormField(
       controller: widget.controller,
+      obscureText: widget.boolText,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter your ${widget.nullText}';
+        }
+        return null;
+      },
       decoration: InputDecoration(
         isDense: true,
         contentPadding: const EdgeInsets.symmetric(
-          vertical: 15.0,
+          vertical: 18.0,
           horizontal: 20.0,
         ),
         labelText: widget.labelText,

@@ -1,58 +1,129 @@
-import 'dart:convert';
-
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/constants/app_colors.dart';
+import 'package:frontend/constants/app_urls.dart';
+import 'package:frontend/models/user_cart.dart';
 import 'package:frontend/screens/check_out_screen/checkout.dart';
 import 'package:frontend/screens/profile_screen/profile_view.dart';
 import 'package:frontend/screens/shopping_cart_screen/widget/custom_cart_item.dart';
 import 'package:frontend/widgets/app_button.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ShopingCartView extends StatefulWidget {
-  const ShopingCartView({Key? key}) : super(key: key);
+  const ShopingCartView({super.key});
 
   @override
   State<ShopingCartView> createState() => _ShopingCartViewState();
 }
 
 class _ShopingCartViewState extends State<ShopingCartView> {
-  late Future<List<Map<String, dynamic>>> _userProductCartFuture;
+  late Future<UserCart> _userCartFuture;
+  double grandTotal = 0.0;
+  bool isCartEmpty = false;
 
   @override
   void initState() {
     super.initState();
-    _userProductCartFuture = getUserCart();
+    _userCartFuture = getUserCart();
   }
 
-  Future<List<Map<String, dynamic>>> getUserCart() async {
+  Future<UserCart> getUserCart() async {
     String? token = await userToken();
-    var url = Uri.parse("http://127.0.0.1:8000/api/cart/cart_by_user");
+    final url = "${AppURL.BaseURL}/api/cart/cart_by_user";
+    final dio = Dio();
+
     try {
-      final response = await http.get(url, headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer $token',
-      });
+      final response = await dio.get(
+        url,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
       if (response.statusCode == 200) {
-        var responseBody = jsonDecode(response.body);
-        if (responseBody.containsKey('data') &&
-            responseBody['data'] is Map &&
-            responseBody['data'].containsKey('products') &&
-            responseBody['data']['products'] is List) {
-          // Extract the list of products from the response
-          var products = responseBody['data']['products'];
-          return List<Map<String, dynamic>>.from(products);
-        } else {
-          print("Invalid response format: $responseBody");
-          return [];
-        }
+        UserCart userCart = UserCart.fromJson(response.data);
+
+        setState(() {
+          grandTotal = calculateGrandTotal(userCart);
+          isCartEmpty = userCart.data!.products!.isEmpty;
+        });
+
+        return userCart;
       } else {
-        print("Failed to get user. Status code: ${response.statusCode}");
-        return [];
+        throw Exception(
+            "Failed to get user cart. Status code: ${response.statusCode}");
       }
     } catch (e) {
-      print(e);
-      return [];
+      throw ("Empty Cart");
+    }
+  }
+
+  double calculateGrandTotal(UserCart userCart) {
+    double total = 0.0;
+    for (var product in userCart.data!.products!) {
+      total += double.parse(product.salePrice!) * product.pivot!.quantity!;
+    }
+    return total;
+  }
+
+  Future<void> removeItemFromCart(int productId, double productPrice) async {
+    String? token = await userToken();
+    final url = "${AppURL.BaseURL}/api/cart/remove_item/$productId";
+    final dio = Dio();
+
+    try {
+      final response = await dio.delete(
+        url,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        setState(() {
+          grandTotal -= productPrice;
+          isCartEmpty = grandTotal <= 0;
+        });
+      } else {
+        print(
+            "Failed to remove item from cart. Status code: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("Error occurred while removing item from cart: $e");
+    }
+  }
+
+  void handleCheckout() {
+    if (isCartEmpty) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Cart is Empty'),
+            content: const Text(
+                'Please add items to your cart before checking out.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const CheckoutPage(),
+        ),
+      );
     }
   }
 
@@ -64,34 +135,42 @@ class _ShopingCartViewState extends State<ShopingCartView> {
           "My Cart",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
+        backgroundColor: AppColor.primary,
+        centerTitle: true,
       ),
       body: SafeArea(
-        child: FutureBuilder<List<Map<String, dynamic>>>(
-          future: _userProductCartFuture,
+        child: FutureBuilder<UserCart>(
+          future: _userCartFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
-            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return Center(child: Text("Empty Cart"));
-            } else {
-              List<Map<String, dynamic>> userProductCart = snapshot.data!;
+            } else if (snapshot.hasData) {
+              UserCart userCart = snapshot.data!;
+              if (userCart.data!.products!.isEmpty) {
+                return const Center(child: Text("Empty Cart"));
+              }
               return Column(
                 children: [
                   Expanded(
                     flex: 4,
                     child: ListView.builder(
-                      itemCount: userProductCart.length,
+                      itemCount: userCart.data!.products!.length,
                       itemBuilder: ((context, index) {
+                        Products product = userCart.data!.products![index];
                         return CustomCartItem(
-                          imageUrl: userProductCart[index]['imageUrl'] ?? "",
-                          title: userProductCart[index]['name'] ?? "",
-                          subtitle: userProductCart[index]['imageUrl'] ?? "",
-                          price: userProductCart[index]['sale_price'] ?? "",
+                          imageUrl: product.featureImage ?? "",
+                          title: product.name ?? "",
+                          price: product.salePrice ?? "",
+                          quantity: product.pivot?.quantity ?? 0,
                           removeItem: () {
                             setState(() {
-                              userProductCart.removeAt(index);
+                              userCart.data!.products!.removeAt(index);
+                              removeItemFromCart(
+                                  product.id!,
+                                  double.parse(product.salePrice!) *
+                                      product.pivot!.quantity!);
                             });
                           },
                         );
@@ -120,8 +199,7 @@ class _ShopingCartViewState extends State<ShopingCartView> {
                               ),
                               const Spacer(),
                               Text(
-                                "Rs. 123.09",
-                                // "Rs.  ${calculateTotalPrice().toStringAsFixed(2)}",
+                                "Rs. $grandTotal",
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: AppColor.primary,
@@ -134,14 +212,8 @@ class _ShopingCartViewState extends State<ShopingCartView> {
                           ),
                           AppButton(
                             buttonText: "Check Out",
-                            onButtonTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CheckoutPage(),
-                                ),
-                              );
-                            },
+                            onButtonTap: handleCheckout,
+                            isDisabled: isCartEmpty,
                           ),
                         ],
                       ),
@@ -149,6 +221,8 @@ class _ShopingCartViewState extends State<ShopingCartView> {
                   ),
                 ],
               );
+            } else {
+              return const Center(child: Text("Empty Cart"));
             }
           },
         ),

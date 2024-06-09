@@ -1,8 +1,15 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/constants/app_urls.dart';
+import 'package:frontend/screens/home_screen/home_view.dart';
 import 'package:frontend/screens/navigation_screen/navigation_view.dart';
+import 'package:frontend/screens/profile_screen/profile_view.dart';
 import 'package:frontend/widgets/app_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CheckoutApp extends StatelessWidget {
+  const CheckoutApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -10,13 +17,16 @@ class CheckoutApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: CheckoutPage(),
+      home: const CheckoutPage(),
     );
   }
 }
 
 class CheckoutPage extends StatefulWidget {
+  const CheckoutPage({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _CheckoutPageState createState() => _CheckoutPageState();
 }
 
@@ -27,19 +37,73 @@ class _CheckoutPageState extends State<CheckoutPage> {
   String expirationDate = '';
   String cvv = '';
 
-  void processPayment() {
+  processPayment() async {
+    String? token = await userToken();
+    final dio = Dio();
+    final url = "${AppURL.BaseURL}/api/checkout";
+
+    try {
+      final response = await dio.post(
+        url,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        showDialog(
+          // ignore: use_build_context_synchronously
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text('Message'),
+              content: const Text('Payment Processed Successfully'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const NavigationView(),
+                      ),
+                    );
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        showErrorDialog("Failed to process payment. Please try again.");
+      }
+    } catch (e) {
+      showErrorDialog("Error occurred while processing payment");
+    }
+  }
+
+  Future<String?> userToken() async {
+    var sharedPref = await SharedPreferences.getInstance();
+    String? user_token = sharedPref.getString(ProfileViewState.tokenKey);
+    return user_token;
+  }
+
+  void showErrorDialog(String message) {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Message'),
-          content: Text('Payment Processed Successfully'),
+          title: const Text('Error'),
+          content: Text(message),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         );
@@ -196,18 +260,17 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     context: context,
                     builder: (context) {
                       return AlertDialog(
-                        title: Text('Error'),
-                        content: Text('Please fill in all the fields.'),
+                        title: const Text('Error'),
+                        content: const Text('Please fill in all the fields.'),
                         actions: <Widget>[
                           TextButton(
                             onPressed: () {
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          const NavigationView()));
+                                      builder: (context) => const HomeView()));
                             },
-                            child: Text('OK'),
+                            child: const Text('OK'),
                           ),
                         ],
                       );

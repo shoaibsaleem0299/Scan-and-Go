@@ -4,16 +4,16 @@ import 'package:frontend/constants/app_colors.dart';
 class CustomCartItem extends StatefulWidget {
   final String imageUrl;
   final String title;
-  final String subtitle;
+  final int quantity;
   final String price;
   final void Function() removeItem;
   const CustomCartItem({
     super.key,
     required this.imageUrl,
     required this.title,
-    required this.subtitle,
     required this.price,
     required this.removeItem,
+    required this.quantity,
   });
 
   @override
@@ -92,14 +92,7 @@ class _CustomCartItemState extends State<CustomCartItem> {
                       ),
                     ),
                     Text(
-                      widget.subtitle,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey[600],
-                      ),
-                    ),
-                    Text(
-                      "Rs. ${widget.price}",
+                      "Rs. ${widget.price} - (${widget.quantity})",
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,

@@ -1,12 +1,203 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/widgets/app_button.dart';
 
-class PaymentScreen extends StatelessWidget {
+class PaymentScreen extends StatefulWidget {
   const PaymentScreen({super.key});
 
   @override
+  State<PaymentScreen> createState() => _PaymentScreenState();
+}
+
+class _PaymentScreenState extends State<PaymentScreen> {
+  String fullName = '';
+  String cardNumber = '';
+  String expirationDate = '';
+  String cvv = '';
+  @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text("payment Screen"),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Payment Method',
+          style: TextStyle(fontWeight: FontWeight.w700),
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Enter your details:',
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20.0),
+            TextField(
+              decoration: InputDecoration(
+                isDense: true,
+                contentPadding: const EdgeInsets.symmetric(
+                  vertical: 20.0,
+                  horizontal: 20.0,
+                ),
+                labelText: "Full Name",
+                labelStyle: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16.0),
+                  borderSide: BorderSide.none,
+                ),
+                filled: true,
+                fillColor: const Color.fromARGB(255, 237, 237, 237),
+                prefixIcon: const Icon(Icons.person),
+              ),
+              onChanged: (value) {
+                setState(() {
+                  fullName = value;
+                });
+              },
+            ),
+            const SizedBox(height: 20.0),
+            TextField(
+              decoration: InputDecoration(
+                isDense: true,
+                contentPadding: const EdgeInsets.symmetric(
+                  vertical: 20.0,
+                  horizontal: 20.0,
+                ),
+                labelText: "Enter Card Number",
+                labelStyle: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16.0),
+                  borderSide: BorderSide.none,
+                ),
+                filled: true,
+                fillColor: const Color.fromARGB(255, 237, 237, 237),
+                prefixIcon: const Icon(Icons.payments_outlined),
+              ),
+              onChanged: (value) {
+                setState(() {
+                  cardNumber = value;
+                });
+              },
+            ),
+            const SizedBox(height: 20.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: TextField(
+                    decoration: InputDecoration(
+                      isDense: true,
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 20.0,
+                        horizontal: 20.0,
+                      ),
+                      labelText: "Expiry Date",
+                      labelStyle: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16.0),
+                        borderSide: BorderSide.none,
+                      ),
+                      filled: true,
+                      fillColor: const Color.fromARGB(255, 237, 237, 237),
+                      prefixIcon: const Icon(Icons.date_range_rounded),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        expirationDate = value;
+                      });
+                    },
+                  ),
+                ),
+                const SizedBox(width: 10.0),
+                Flexible(
+                  child: TextField(
+                    decoration: InputDecoration(
+                      isDense: true,
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 20.0,
+                        horizontal: 20.0,
+                      ),
+                      labelText: "CVV",
+                      labelStyle: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16.0),
+                        borderSide: BorderSide.none,
+                      ),
+                      filled: true,
+                      fillColor: const Color.fromARGB(255, 237, 237, 237),
+                      prefixIcon: const Icon(Icons.numbers),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        cvv = value;
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20.0),
+            AppButton(
+              buttonText: "Update",
+              onButtonTap: () {
+                if (fullName.isNotEmpty &&
+                    cardNumber.isNotEmpty &&
+                    expirationDate.isNotEmpty &&
+                    cvv.isNotEmpty) {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('Message'),
+                        content:
+                            const Text('Payment Data Submited Successfully.'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('Error'),
+                        content: const Text('Please fill in all the fields.'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

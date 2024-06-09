@@ -5,7 +5,10 @@ class AppButton extends StatelessWidget {
   final String buttonText;
   final void Function() onButtonTap;
   const AppButton(
-      {super.key, required this.buttonText, required this.onButtonTap});
+      {super.key,
+      required this.buttonText,
+      required this.onButtonTap,
+      bool? isDisabled});
 
   @override
   Widget build(BuildContext context) {

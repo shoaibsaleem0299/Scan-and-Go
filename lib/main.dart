@@ -14,9 +14,6 @@ class ScanAndGO extends StatelessWidget {
     return const MaterialApp(
       title: "Scan And Go",
       home: SplashScreen(),
-      // home: NavigationView(),
-      // home: ProfileView(),
-      // home: ProfileScreen(),
     );
   }
 }

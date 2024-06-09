@@ -1,57 +1,254 @@
-import 'package:flutter/material.dart';
-import 'package:frontend/screens/login_screen/login.dart';
-import 'package:http/http.dart' as http;
+// import 'package:flutter/material.dart';
+// import 'package:frontend/constants/app_colors.dart';
+// import 'package:frontend/screens/login_screen/login.dart';
+// import 'package:frontend/widgets/app_button.dart';
+// import 'package:frontend/widgets/custom_user_inputfield.dart';
+// import 'package:http/http.dart' as http;
+// import 'dart:convert';
 
-class SignUp extends StatefulWidget {
-  const SignUp({super.key});
+// class SignupScreen extends StatefulWidget {
+//   const SignupScreen({super.key});
+
+//   @override
+//   // ignore: library_private_types_in_public_api
+//   _SignupScreenState createState() => _SignupScreenState();
+// }
+
+// class _SignupScreenState extends State<SignupScreen> {
+//   final _formKey = GlobalKey<FormState>();
+//   final TextEditingController nameController = TextEditingController();
+//   final TextEditingController usernameController = TextEditingController();
+//   final TextEditingController emailController = TextEditingController();
+//   final TextEditingController passwordController = TextEditingController();
+//   final TextEditingController confirmPasswordController =
+//       TextEditingController();
+
+//   String _errorMessage = '';
+
+//   Future<void> _signup() async {
+//     if (_formKey.currentState!.validate()) {
+//       final response = await http.post(
+//         Uri.parse('http://127.0.0.1:8000/api/register'),
+//         headers: <String, String>{
+//           'Content-Type': 'application/json; charset=UTF-8',
+//         },
+//         body: jsonEncode(<String, String>{
+//           'name': nameController.text,
+//           'username': usernameController.text,
+//           'email': emailController.text,
+//           'password': passwordController.text,
+//           'confirm_password': confirmPasswordController.text,
+//         }),
+//       );
+
+//       if (response.statusCode == 200) {
+//         final Map<String, dynamic> responseBody = json.decode(response.body);
+//         if (responseBody['status'] == 'success') {
+//           // Navigate to login screen
+//           Navigator.pushReplacement(
+//               // ignore: use_build_context_synchronously
+//               context,
+//               MaterialPageRoute(builder: (context) => const LogIn()));
+//           // Navigator.pushReplacementNamed(context, '/login');
+//         } else {
+//           setState(() {
+//             _errorMessage = responseBody['message'] ?? 'Unknown error occurred';
+//           });
+//         }
+//       } else {
+//         setState(() {
+//           _errorMessage = 'Failed to sign up. Please try again.';
+//         });
+//       }
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         centerTitle: true,
+//         title: const Text(
+//           "SignUp",
+//           style: TextStyle(
+//             fontSize: 20,
+//             fontWeight: FontWeight.bold,
+//             color: Colors.white,
+//           ),
+//         ),
+//         backgroundColor: AppColor.primary,
+//       ),
+//       body: Padding(
+//         padding: const EdgeInsets.all(16.0),
+//         child: Form(
+//           key: _formKey,
+//           child: Column(
+//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: <Widget>[
+//               const SizedBox(
+//                 height: 120.0,
+//                 width: 170.0,
+//                 child: Text(
+//                   'Create An Account',
+//                   style: TextStyle(
+//                     fontSize: 30,
+//                     fontWeight: FontWeight.w800,
+//                   ),
+//                 ),
+//               ),
+//               UserInputField(
+//                 labelText: "Name",
+//                 prefixIcon: "person",
+//                 nullText: "Name",
+//                 boolText: false,
+//                 controller: nameController,
+//               ),
+//               const SizedBox(height: 8),
+//               UserInputField(
+//                 labelText: "Username",
+//                 prefixIcon: "person",
+//                 nullText: "Username",
+//                 boolText: false,
+//                 controller: usernameController,
+//               ),
+//               const SizedBox(height: 8),
+//               UserInputField(
+//                 labelText: "Email",
+//                 prefixIcon: "email",
+//                 nullText: "Email",
+//                 boolText: false,
+//                 controller: emailController,
+//               ),
+//               const SizedBox(height: 8),
+//               UserInputField(
+//                 labelText: "Password",
+//                 prefixIcon: "password",
+//                 nullText: "Password",
+//                 boolText: true,
+//                 controller: passwordController,
+//               ),
+//               const SizedBox(height: 8),
+//               UserInputField(
+//                 labelText: "Confirm Password",
+//                 prefixIcon: "password",
+//                 nullText: "Confirm Password",
+//                 boolText: true,
+//                 controller: confirmPasswordController,
+//               ),
+//               const SizedBox(height: 20),
+//               AppButton(buttonText: "Register", onButtonTap: _signup),
+//               const SizedBox(height: 20),
+//               if (_errorMessage.isNotEmpty)
+//                 Text(
+//                   _errorMessage,
+//                   style: const TextStyle(color: Colors.red),
+//                 ),
+//               Row(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   const Text(
+//                     "Already Have An Account?",
+//                     style: TextStyle(fontSize: 16),
+//                   ),
+//                   GestureDetector(
+//                     onTap: () {
+//                       Navigator.pushReplacement(
+//                         context,
+//                         MaterialPageRoute(
+//                           builder: (context) => const LogIn(),
+//                         ),
+//                       );
+//                     },
+//                     child: Text(
+//                       " Sign In",
+//                       style: TextStyle(fontSize: 16, color: AppColor.primary),
+//                     ),
+//                   )
+//                 ],
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+import 'package:flutter/material.dart';
+import 'package:frontend/constants/app_colors.dart';
+import 'package:frontend/screens/login_screen/login.dart';
+import 'package:frontend/ui_functions/signup_function.dart';
+import 'package:frontend/widgets/app_button.dart';
+import 'package:frontend/widgets/custom_user_inputfield.dart';
+
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  State<SignUp> createState() => _SignUpState();
+  // ignore: library_private_types_in_public_api
+  _SignupScreenState createState() => _SignupScreenState();
 }
 
-class _SignUpState extends State<SignUp> {
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+class _SignupScreenState extends State<SignupScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
-  Future<void> _registerUser() async {
-    const url = 'http://10.0.2.2/api/signup.php';
-    final response = await http.post(
-      Uri.parse(url),
-      body: {
-        'username': _usernameController.text,
-        'email': _emailController.text,
-        'password': _passwordController.text,
-      },
-    );
+  String _errorMessage = '';
 
-    if (response.statusCode == 200) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const LogIn(),
-        ),
-      );
-    } else {
-      // Registration failed
-      // Handle error
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Error'),
-            content: Text('Failed to register. Please try again later.'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('OK'),
+  Future<void> _signup() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        final result = await SignupService.registerUser(
+          nameController.text,
+          usernameController.text,
+          emailController.text,
+          passwordController.text,
+          confirmPasswordController.text,
+        );
+
+        if (result['status'] == 'success') {
+          // ignore: use_build_context_synchronously
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: AppColor.primary,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
               ),
-            ],
+              content: const Center(
+                child: Text(
+                  "Registration Successful",
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+              ),
+              duration: const Duration(seconds: 2),
+            ),
           );
-        },
-      );
+          Navigator.pushReplacement(
+            // ignore: use_build_context_synchronously
+            context,
+            MaterialPageRoute(
+              builder: (context) => const LogIn(),
+            ),
+          );
+        } else {
+          setState(() {
+            _errorMessage =
+                result['message'] ?? 'Failed to sign up. Please try again.';
+          });
+        }
+      } catch (e) {
+        setState(() {
+          _errorMessage =
+              'An unexpected error occurred. Please try again later.';
+        });
+      }
     }
   }
 
@@ -59,11 +256,6 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.arrow_back),
-          tooltip: 'Back Icon',
-        ),
         centerTitle: true,
         title: const Text(
           "SignUp",
@@ -73,245 +265,94 @@ class _SignUpState extends State<SignUp> {
             color: Colors.white,
           ),
         ),
-        backgroundColor: const Color.fromARGB(255, 2, 180, 70),
+        backgroundColor: AppColor.primary,
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 const SizedBox(
+                  height: 60,
+                ),
+                const SizedBox(
+                  height: 150.0,
                   width: 170.0,
                   child: Text(
-                    'Create      An Account',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w800,
-                    ),
+                    'Create An Account',
+                    style: TextStyle(fontSize: 36, fontWeight: FontWeight.w900),
                   ),
                 ),
-                const SizedBox(height: 50.0),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: _usernameController,
-                    decoration: InputDecoration(
-                        labelText: 'First Name',
-                        labelStyle: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        hintText: 'e.g. John',
-                        hintStyle: const TextStyle(color: Colors.black),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16.0),
-                          borderSide: BorderSide.none,
-                        ),
-                        filled: true,
-                        fillColor: const Color.fromARGB(255, 237, 237, 237),
-                        prefixIcon: const Icon(Icons.person_2_sharp)),
+                UserInputField(
+                  labelText: "Name",
+                  prefixIcon: "person",
+                  nullText: "Name",
+                  boolText: false,
+                  controller: nameController,
+                ),
+                const SizedBox(height: 12),
+                UserInputField(
+                  labelText: "Username",
+                  prefixIcon: "person",
+                  nullText: "Username",
+                  boolText: false,
+                  controller: usernameController,
+                ),
+                const SizedBox(height: 12),
+                UserInputField(
+                  labelText: "Email",
+                  prefixIcon: "email",
+                  nullText: "Email",
+                  boolText: false,
+                  controller: emailController,
+                ),
+                const SizedBox(height: 12),
+                UserInputField(
+                  labelText: "Password",
+                  prefixIcon: "password",
+                  nullText: "Password",
+                  boolText: true,
+                  controller: passwordController,
+                ),
+                const SizedBox(height: 12),
+                UserInputField(
+                  labelText: "Confirm Password",
+                  prefixIcon: "password",
+                  nullText: "Confirm Password",
+                  boolText: true,
+                  controller: confirmPasswordController,
+                ),
+                const SizedBox(height: 12),
+                AppButton(buttonText: "Register", onButtonTap: _signup),
+                const SizedBox(height: 20),
+                if (_errorMessage.isNotEmpty)
+                  Text(
+                    _errorMessage,
+                    style: const TextStyle(color: Colors.red),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                        labelText: 'Surname',
-                        labelStyle: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        hintText: 'e.g. Doe',
-                        hintStyle: const TextStyle(color: Colors.black),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16.0),
-                          borderSide: BorderSide.none,
-                        ),
-                        filled: true,
-                        fillColor: const Color.fromARGB(255, 237, 237, 237),
-                        prefixIcon: const Icon(Icons.email_sharp)),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: _passwordController,
-                    decoration: InputDecoration(
-                      labelText: 'Mobile number or email address',
-                      labelStyle: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      // hintText: 'john@gmail.com',
-                      hintStyle: const TextStyle(color: Colors.black),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16.0),
-                        borderSide: BorderSide.none,
-                      ),
-                      filled: true,
-                      fillColor: Color.fromARGB(255, 237, 237, 237),
-                      prefixIcon: const Icon(Icons.lock),
-                      suffixIcon: const Icon(Icons.remove_red_eye_rounded),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                        labelText: 'New password',
-                        labelStyle: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        hintText: '!@#^&%',
-                        hintStyle: const TextStyle(color: Colors.black),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(16.0),
-                          borderSide: BorderSide.none,
-                        ),
-                        filled: true,
-                        fillColor: const Color.fromARGB(255, 237, 237, 237),
-                        prefixIcon: const Icon(Icons.lock),
-                        suffixIcon: const Icon(Icons.remove_red_eye_rounded)),
-                  ),
-                ),
-                const SizedBox(height: 16.0),
-                Center(
-                    child: ElevatedButton(
-                  onPressed: _registerUser,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 2, 180, 70),
-                    elevation: 3, // Elevation
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10), // BorderRadius
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12, horizontal: 140.0), // Padding
-                  ),
-                  child: const Text(
-                    'Register',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                )),
-                const SizedBox(
-                  height: 20.0,
-                ),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Divider(
-                      color: Colors.black,
-                    ),
-                    Text(
-                      "Or",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    ),
-                    Divider(
-                      color: Colors.black,
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20.0,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
-                      width: 162.0,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                            10.0), // Adjust the value as needed
-                        color: const Color.fromARGB(
-                            255, 237, 237, 237), // Background color
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.email_rounded,
-                              color:
-                                  Color.fromARGB(255, 2, 180, 70), // Icon color
-                              size: 40.0,
-                            ),
-                          ),
-                          const Padding(
-                            padding: const EdgeInsets.only(right: 8),
-                            child: Text(
-                              "Google",
-                              style: TextStyle(fontSize: 16),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: 162.0,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                            10.0), // Adjust the value as needed
-                        color: const Color.fromARGB(
-                            255, 237, 237, 237), // Background color
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.facebook_sharp,
-                              color: Colors.deepPurpleAccent, // Icon color
-                              size: 40.0,
-                            ),
-                          ),
-                          const Padding(
-                            padding: const EdgeInsets.only(right: 8),
-                            child: Text(
-                              "Facebook",
-                              style: TextStyle(fontSize: 16),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 16.0,
-                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      "Already Have an account?",
+                      "Already Have An Account?",
                       style: TextStyle(fontSize: 16),
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => const LogIn(),
                           ),
                         );
                       },
-                      child: const Text(
+                      child: Text(
                         " Sign In",
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Color.fromARGB(255, 2, 180, 70)),
+                        style: TextStyle(fontSize: 16, color: AppColor.primary),
                       ),
                     )
                   ],

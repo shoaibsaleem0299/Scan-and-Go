@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/constants/app_colors.dart';
 
 class ProductView extends StatelessWidget {
   final String name;
@@ -26,7 +27,7 @@ class ProductView extends StatelessWidget {
       appBar: AppBar(
         title: Text(name),
         centerTitle: true,
-        backgroundColor: Colors.blue,
+        backgroundColor: AppColor.primary,
       ),
       body: Center(
         child: Container(

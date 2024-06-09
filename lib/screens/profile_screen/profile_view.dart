@@ -2,12 +2,14 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:frontend/constants/app_urls.dart';
 import 'package:frontend/screens/login_screen/login.dart';
 import 'package:frontend/screens/navigation_screen/navigation_view.dart';
 import 'package:frontend/screens/product_screen/cart_product_screen.dart';
 import 'package:frontend/widgets/app_button.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dio/dio.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -27,7 +29,7 @@ class ProfileViewState extends State<ProfileView> {
     String? token = await userToken();
     const url = "http://127.0.0.1:8000/api/cart/add_to_cart";
     try {
-      final response = await http.post(
+      await http.post(
         Uri.parse(url),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
@@ -52,15 +54,19 @@ class ProfileViewState extends State<ProfileView> {
   Future<void> getDummyUser() async {
     String? token = await userToken();
     if (token != null) {
-      var url =
-          Uri.parse("http://127.0.0.1:8000/api/product/barcode/${userId.text}");
+      var url = "${AppURL.BaseURL}/api/product/barcode/${userId.text}";
       try {
-        var response = await http.get(url, headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': 'Bearer $token',
-        });
+        var response = await Dio().get(
+          url,
+          options: Options(
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Authorization': 'Bearer $token',
+            },
+          ),
+        );
         if (response.statusCode == 200) {
-          var responseBody = jsonDecode(response.body);
+          var responseBody = response.data;
           setState(() {
             users.add(responseBody);
           });
@@ -166,12 +172,12 @@ class ProfileViewState extends State<ProfileView> {
                                 "https://www.sunsetgrown.com/wp-content/uploads/2020/10/XLBeef_traightOn_001-1024x714.png",
                             name: "${users.last['name']}",
                             category: "${users.last['username']}",
-                            initialPrice: 12.90,
+                            initialPrice: "12.90",
                             initialQuantity: 1,
                             description: "${users.last['description']}",
                             location: "second",
-                            status: "${users.last['stock_quantity']}",
-                            productId: "${users.last['id']}",
+                            status: 1,
+                            productId: 1,
                             onAddToCart: (productData) {
                               addToCart(productData['productId'],
                                   productData['quantity']);

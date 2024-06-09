@@ -76,41 +76,11 @@ class _CustomProductCardState extends State<CustomProductCard> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        widget.status,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      const Spacer(),
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            isFavorite = !isFavorite;
-                            if (isFavorite) {
-                              widget.onAddToFavorites(Product(
-                                productName: widget.productName,
-                                category: widget.category,
-                                price: widget.price,
-                                imageUrl: widget.imageUrl,
-                                status: widget.status,
-                                description: widget.description,
-                              ));
-                            } else {
-                              // Remove from favorites if already added
-                              // Implement if necessary
-                            }
-                          });
-                        },
-                        icon: Icon(
-                          isFavorite
-                              ? Icons.favorite
-                              : Icons.favorite_border_outlined,
-                        ),
-                      ),
-                    ],
+                  Text(
+                    widget.status,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(2.0),
@@ -118,11 +88,13 @@ class _CustomProductCardState extends State<CustomProductCard> {
                       child: Image.network(
                         widget.imageUrl,
                         width: 55,
+                        height: 85,
                         errorBuilder: (context, error, stackTrace) {
                           // If the network image fails to load, display an asset image instead
                           return Image.asset(
                             'assets/images/app_image.png',
                             width: 65,
+                            height: 85,
                             // You can also provide additional properties here if needed
                           );
                         },

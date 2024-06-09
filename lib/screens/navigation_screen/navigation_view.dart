@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/constants/app_colors.dart';
 import 'package:frontend/screens/home_screen/home_view.dart';
 import 'package:frontend/screens/profile_screen/profile_screen.dart';
-import 'package:frontend/screens/recommended_screen/favorite_view.dart';
+import 'package:frontend/screens/recommended_screen/recommend_products.dart';
 import 'package:frontend/screens/scan_screen/scan_view.dart';
 import 'package:frontend/screens/shopping_cart_screen/shoping_cart_view.dart';
 
@@ -19,7 +19,7 @@ class _NavigationViewState extends State<NavigationView> {
 
   static const List<Widget> _screens = [
     HomeView(),
-    FavoriteView(),
+    RecommendedProducts(),
     ScanView(),
     ShopingCartView(),
     ProfileScreen(),
@@ -28,7 +28,7 @@ class _NavigationViewState extends State<NavigationView> {
   @override
   void initState() {
     super.initState();
-    _selectedIndex = 2;
+    _selectedIndex = 0;
   }
 
   void _onItemTapped(int index) {

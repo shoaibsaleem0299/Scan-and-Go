@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/constants/app_colors.dart';
 import 'package:frontend/data/product_data.dart';
+import 'package:frontend/screens/product_screen/product_view.dart';
 import 'package:frontend/widgets/custom_product_card.dart';
 
 class RecommendedProducts extends StatefulWidget {
@@ -16,7 +18,11 @@ class _RecommendedProductsState extends State<RecommendedProducts> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Recommended For You"),
+        title: const Text(
+          "Recommended For You",
+          style: TextStyle(fontWeight: FontWeight.w500),
+        ),
+        backgroundColor: AppColor.primary,
       ),
       body: SafeArea(
         child: GridView.builder(
@@ -29,7 +35,22 @@ class _RecommendedProductsState extends State<RecommendedProducts> {
                 productName: Products[index]['name'],
                 imageUrl: Products[index]['image'],
                 price: Products[index]['price'],
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProductView(
+                        name: Products[index]['name'],
+                        category: Products[index]['category'],
+                        price: Products[index]['price'],
+                        description: Products[index]['description'],
+                        location: Products[index]['location'],
+                        status: Products[index]['status'],
+                        imageUrl: Products[index]['image'],
+                      ),
+                    ),
+                  );
+                },
                 category: Products[index]['category'],
                 status: Products[index]['status'],
                 description: Products[index]['description'],

@@ -5,15 +5,15 @@ import 'package:frontend/widgets/app_button.dart';
 import 'package:frontend/widgets/item_counter.dart';
 
 class CartProductView extends StatelessWidget {
-  final String productId;
+  final int? productId;
   final String name;
   final String category;
-  final double initialPrice;
+  final String initialPrice;
   final int initialQuantity;
   final String imageUrl;
   final String description;
   final String location;
-  final String status;
+  final int? status;
   final Function(Map<String, dynamic>) onAddToCart;
 
   const CartProductView({
@@ -30,10 +30,21 @@ class CartProductView extends StatelessWidget {
     required this.productId,
   });
 
-  @override
+  String? statusUpdate(int status) {
+    if (status > 5) {
+      return "In stock";
+    } else if (status > 0 && status <= 5) {
+      return "In stock: $status left";
+    } else {
+      return "Out of stock";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    int updatedQuantity = 1;
+    double productPrice = double.parse(initialPrice);
+    int updatedQuantity = initialQuantity;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(name),
@@ -42,7 +53,6 @@ class CartProductView extends StatelessWidget {
       ),
       body: Center(
         child: Container(
-          // height: MediaQuery.of(context).size.height * 0.8,
           margin: const EdgeInsets.all(20),
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
@@ -62,16 +72,20 @@ class CartProductView extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(12.0),
-                child: Image.network(
-                  imageUrl,
-                  height: 200,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Image.asset(
-                      'assets/images/app_image.png',
-                    );
-                  },
+                child: Center(
+                  child: Image.network(
+                    imageUrl,
+                    height: 200,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Center(
+                        child: Image.asset(
+                          'assets/images/app_image.png',
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
               const SizedBox(height: 10),
@@ -84,7 +98,7 @@ class CartProductView extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                "Status: $status",
+                "Status: ${statusUpdate(status!)}",
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
@@ -121,13 +135,15 @@ class CartProductView extends StatelessWidget {
                   fontSize: 20,
                 ),
               ),
+              const SizedBox(height: 5),
               ItemCounter(
                 initialValue: initialQuantity,
-                pricePerItem: initialPrice,
+                pricePerItem: productPrice,
                 onChanged: (newQuantity) {
                   updatedQuantity = newQuantity;
                 },
               ),
+              const SizedBox(height: 10),
               AppButton(
                 buttonText: "Add To Cart",
                 onButtonTap: () {
@@ -136,7 +152,7 @@ class CartProductView extends StatelessWidget {
                       'productId': productId,
                       'name': name,
                       'category': category,
-                      'price': initialPrice * updatedQuantity,
+                      'price': productPrice * updatedQuantity,
                       'quantity': updatedQuantity,
                     },
                   );

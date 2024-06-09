@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/profile_screen/profile_screen.dart';
 
 class UserTile extends StatelessWidget {
   final String name;
@@ -22,6 +23,12 @@ class UserTile extends StatelessWidget {
           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
         ),
         trailing: IconButton(
-            onPressed: () {}, icon: const Icon(Icons.person_2_rounded)));
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ProfileScreen()));
+            },
+            icon: const Icon(Icons.person_2_rounded)));
   }
 }
