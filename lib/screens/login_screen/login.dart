@@ -77,6 +77,12 @@ class _LogInState extends State<LogIn> {
                       controller: _passwordController,
                     ),
                     const SizedBox(height: 16.0),
+                    if (_errorMessage.isNotEmpty)
+                      Text(
+                        _errorMessage,
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                    const SizedBox(height: 16.0),
                     Center(
                       child: AppButton(
                         buttonText: "Log In",
@@ -99,11 +105,6 @@ class _LogInState extends State<LogIn> {
                       ),
                     ),
                     const SizedBox(height: 20.0),
-                    if (_errorMessage.isNotEmpty)
-                      Text(
-                        _errorMessage,
-                        style: const TextStyle(color: Colors.red),
-                      ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

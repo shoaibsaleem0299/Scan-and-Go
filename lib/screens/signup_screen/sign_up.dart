@@ -281,7 +281,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 const SizedBox(
                   height: 150.0,
-                  width: 170.0,
+                  width: 178.0,
                   child: Text(
                     'Create An Account',
                     style: TextStyle(fontSize: 36, fontWeight: FontWeight.w900),
@@ -327,13 +327,16 @@ class _SignupScreenState extends State<SignupScreen> {
                   controller: confirmPasswordController,
                 ),
                 const SizedBox(height: 12),
+                if (_errorMessage.isNotEmpty)
+                  Center(
+                    child: Text(
+                      _errorMessage,
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  ),
+                const SizedBox(height: 12),
                 AppButton(buttonText: "Register", onButtonTap: _signup),
                 const SizedBox(height: 20),
-                if (_errorMessage.isNotEmpty)
-                  Text(
-                    _errorMessage,
-                    style: const TextStyle(color: Colors.red),
-                  ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

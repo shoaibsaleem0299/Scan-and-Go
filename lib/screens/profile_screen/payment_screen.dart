@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/profile_screen/profile_screen.dart';
 import 'package:frontend/widgets/app_button.dart';
 
 class PaymentScreen extends StatefulWidget {
@@ -167,6 +168,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pop();
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ProfileScreen()));
                             },
                             child: const Text('OK'),
                           ),

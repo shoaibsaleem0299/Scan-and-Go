@@ -40,7 +40,7 @@ dependencies:
   expandable: ^5.0.1
   dio: ^5.4.3+1
   shared_preferences: ^2.2.3
-
+  pusher_client: ^2.0.0
 
 dev_dependencies:
   flutter_test:

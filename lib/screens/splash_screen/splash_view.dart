@@ -47,7 +47,7 @@ class SplashScreenState extends State<SplashScreen> {
     var isLoggedIn =
         isLoggedInString != null ? isLoggedInString == 'true' : null;
 
-    await Future.delayed(const Duration(milliseconds: 1500), () {});
+    await Future.delayed(const Duration(milliseconds: 500), () {});
     if (isLoggedIn != null) {
       if (isLoggedIn) {
         // ignore: use_build_context_synchronously

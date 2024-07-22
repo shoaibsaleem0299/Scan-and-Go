@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/constants/app_colors.dart';
+import 'package:frontend/screens/home_screen/home_view.dart';
 import 'package:frontend/screens/login_screen/login.dart';
 import 'package:frontend/screens/profile_screen/edit_screen.dart';
 import 'package:frontend/screens/profile_screen/help_screen.dart';
@@ -35,29 +36,22 @@ class ProfileScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Stack(
-                      children: [
-                        const CircleAvatar(
-                          radius: 60,
-                          backgroundColor: Colors.black,
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.add_a_photo),
-                        ),
-                      ],
+                    const CircleAvatar(
+                      radius: 60,
+                      backgroundImage: NetworkImage(
+                          "https://static.vecteezy.com/system/resources/thumbnails/005/545/335/small/user-sign-icon-person-symbol-human-avatar-isolated-on-white-backogrund-vector.jpg"),
                     ),
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.only(top: 6, bottom: 2),
                       child: Text(
-                        "User Name",
-                        style: TextStyle(
+                        HomeViewState.name,
+                        style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 17),
                       ),
                     ),
-                    const Text(
-                      "User Email",
-                      style: TextStyle(
+                    Text(
+                      HomeViewState.email,
+                      style: const TextStyle(
                           fontWeight: FontWeight.w400, letterSpacing: 1),
                     ),
                   ],
@@ -99,7 +93,7 @@ class ProfileScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => HistoryScreen()),
+                              builder: (context) => const HistoryScreen()),
                         );
                       },
                     ),

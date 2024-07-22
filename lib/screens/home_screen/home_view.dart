@@ -13,12 +13,13 @@ class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
   @override
-  State<HomeView> createState() => _HomeViewState();
+  State<HomeView> createState() => HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView> {
+class HomeViewState extends State<HomeView> {
   List<Product> favorites = [];
-  String name = '';
+  static String name = "Username";
+  static String email = "User Email";
 
   @override
   void initState() {
@@ -32,10 +33,19 @@ class _HomeViewState extends State<HomeView> {
     return username;
   }
 
+  Future<String?> userEmail() async {
+    var sharedPref = await SharedPreferences.getInstance();
+    String? userEmail = sharedPref.getString(UserData.EMAILKEY);
+    return userEmail;
+  }
+
   Future<void> getName() async {
     String? username = await userName();
+    String? email = await userEmail();
+
     setState(() {
       name = username ?? "Username";
+      email = email ?? "User Email";
     });
   }
 

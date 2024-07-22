@@ -1,40 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/constants/app_urls.dart';
+import 'package:frontend/screens/profile_screen/profile_view.dart';
+import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class HistoryScreen extends StatelessWidget {
+class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
 
-  static const List<Map<String, String>> orderReceipts = [
-    {
-      'orderId': '001',
-      'name': 'Product A',
-      'totalAmount': '\$50.00',
-      'status': 'Delivered',
-    },
-    {
-      'orderId': '002',
-      'name': 'Product B',
-      'totalAmount': '\$150.00',
-      'status': 'Pending',
-    },
-    {
-      'orderId': '003',
-      'name': 'Product C',
-      'totalAmount': '\$250.00',
-      'status': 'Cancelled',
-    },
-    {
-      'orderId': '004',
-      'name': 'Product D',
-      'totalAmount': '\$350.00',
-      'status': 'Shipped',
-    },
-    {
-      'orderId': '005',
-      'name': 'Product E',
-      'totalAmount': '\$450.00',
-      'status': 'Delivered',
-    },
-  ];
+  @override
+  _HistoryScreenState createState() => _HistoryScreenState();
+}
+
+class _HistoryScreenState extends State<HistoryScreen> {
+  List<dynamic> orderReceipts = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchOrderHistory();
+  }
+
+  Future<void> fetchOrderHistory() async {
+    String? token = await userToken();
+    try {
+      var response = await Dio().post(
+        '${AppURL.BaseURL}/api/order',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+      print(response.data);
+
+      if (response.statusCode == 200) {
+        setState(() {
+          orderReceipts = response.data['data'];
+          isLoading = false;
+        });
+      } else {
+        throw Exception('Failed to load order history');
+      }
+    } catch (e) {
+      throw Exception('Failed to load order history: $e');
+    }
+  }
+
+  Future<String?> userToken() async {
+    var sharedPref = await SharedPreferences.getInstance();
+    String? user_token = sharedPref.getString(ProfileViewState.tokenKey);
+    return user_token;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,42 +63,35 @@ class HistoryScreen extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.w700),
         ),
       ),
-      body: SafeArea(
-        child: ListView.builder(
-          itemCount: orderReceipts.length,
-          itemBuilder: (context, index) {
-            final order = orderReceipts[index];
-            return ListTile(
-              title: Text('Order ID: ${order['orderId']}'),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Name: ${order['name']}'),
-                  Text('Total Amount: ${order['totalAmount']}'),
-                  Text('Status: ${order['status']}'),
-                ],
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : SafeArea(
+              child: ListView.builder(
+                itemCount: orderReceipts.length,
+                itemBuilder: (context, index) {
+                  final order = orderReceipts[index];
+                  return ListTile(
+                    title: Text('Order ID: ${order['id']}'),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Total Amount: \$${order['total_amount']}'),
+                        Text('Status: ${order['status']}'),
+                      ],
+                    ),
+                    isThreeLine: true,
+                    trailing: Icon(
+                      order['status'] == 'PAID'
+                          ? Icons.check_circle
+                          : Icons.hourglass_empty,
+                      color: order['status'] == 'PAID'
+                          ? Colors.green
+                          : Colors.orange,
+                    ),
+                  );
+                },
               ),
-              isThreeLine: true,
-              trailing: Icon(
-                order['status'] == 'Delivered'
-                    ? Icons.check_circle
-                    : order['status'] == 'Pending'
-                        ? Icons.hourglass_empty
-                        : order['status'] == 'Cancelled'
-                            ? Icons.cancel
-                            : Icons.local_shipping,
-                color: order['status'] == 'Delivered'
-                    ? Colors.green
-                    : order['status'] == 'Pending'
-                        ? Colors.orange
-                        : order['status'] == 'Cancelled'
-                            ? Colors.red
-                            : Colors.blue,
-              ),
-            );
-          },
-        ),
-      ),
+            ),
     );
   }
 }
