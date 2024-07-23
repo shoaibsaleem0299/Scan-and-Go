@@ -148,7 +148,9 @@ class _ScanViewState extends State<ScanView> {
       ),
       body: Center(
         child: barcodeValue.isEmpty
-            ? const Center(child: CircularProgressIndicator())
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
             : FutureBuilder<ProductModel?>(
                 future: fetchApiData(barcodeValue),
                 builder: (context, snapshot) {
@@ -179,7 +181,9 @@ class _ScanViewState extends State<ScanView> {
                             category: product.data!.name ?? "Category",
                             description:
                                 product.data!.description ?? "Description",
-                            imageUrl: product.data!.featureImage ?? "Category",
+                            imageUrl:
+                                "${AppURL.BaseURL}/${product.data!.featureImage}" ??
+                                    "Category",
                             initialPrice: product.data!.salePrice ?? "0.0",
                             initialQuantity: 1,
                             location: product.data!.updatedAt ?? "Unknown",

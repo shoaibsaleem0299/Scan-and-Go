@@ -74,7 +74,7 @@ class Data {
     deletedAt = json['deleted_at'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    featureImage = json['feature_image'];
+    featureImage = json['feature_image']['path'];
   }
 
   Map<String, dynamic> toJson() {

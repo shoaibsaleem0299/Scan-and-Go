@@ -41,42 +41,58 @@ class _CheckoutPageState extends State<CheckoutPage> {
     final dio = Dio();
     final url = "${AppURL.BaseURL}/api/checkout";
 
-    final response = await dio.post(
-      url,
-      options: Options(
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-      ),
-    );
-    print(response.data);
+    final data = {
+      'fullName': fullName,
+      'cardNumber': cardNumber,
+      'expirationDate': expirationDate,
+      'cvv': cvv,
+    };
 
-    if (response.statusCode == 200) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text('Message'),
-            content: const Text('Payment Processed Successfully'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const NavigationView(),
-                    ),
-                  );
-                },
-                child: const Text('OK'),
-              ),
-            ],
-          );
-        },
+    try {
+      final response = await dio.post(
+        url,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+        ),
+        data: data,
       );
-    } else {
-      showErrorDialog("Failed to process payment. Please try again.");
+
+      if (response.statusCode == 200) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text('Message'),
+              content: const Text('Payment Processed Successfully'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const NavigationView(),
+                      ),
+                    );
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        showErrorDialog("Failed to process payment. Please try again.");
+      }
+    } catch (e) {
+      if (e is DioException) {
+        print("DioException: ${e.response?.data}");
+      } else {
+        print("Error: $e");
+      }
+      showErrorDialog("An error occurred. Please try again.");
     }
   }
 

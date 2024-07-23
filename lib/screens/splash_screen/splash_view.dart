@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/constants/app_colors.dart';
+import 'package:frontend/screens/guard_profile_screen/guard_view.dart';
 import 'package:frontend/screens/login_screen/login.dart';
 import 'package:frontend/screens/navigation_screen/navigation_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,6 +24,7 @@ class SplashScreenState extends State<SplashScreen> {
   }
 
   static const String loggedInKey = "Login";
+  static const String loggedInRole = "Role";
 
   @override
   Widget build(BuildContext context) {
@@ -44,15 +46,22 @@ class SplashScreenState extends State<SplashScreen> {
   void whereToGo() async {
     var sharedPref = await SharedPreferences.getInstance();
     var isLoggedInString = sharedPref.getString(loggedInKey);
+    var isLoggedInRole = sharedPref.getInt(loggedInRole);
     var isLoggedIn =
         isLoggedInString != null ? isLoggedInString == 'true' : null;
 
     await Future.delayed(const Duration(milliseconds: 500), () {});
     if (isLoggedIn != null) {
       if (isLoggedIn) {
-        // ignore: use_build_context_synchronously
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const NavigationView()));
+        if (isLoggedInRole == 3) {
+          // ignore: use_build_context_synchronously
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const NavigationView()));
+        } else {
+          // ignore: use_build_context_synchronously
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const GuardView()));
+        }
       } else {
         Navigator.pushReplacement(
             // ignore: use_build_context_synchronously

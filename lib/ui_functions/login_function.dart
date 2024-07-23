@@ -110,8 +110,13 @@ class LoginFunction {
         var sharedPref = await SharedPreferences.getInstance();
         sharedPref.setString(SplashScreenState.loggedInKey, true.toString());
         var responseBody = response.data;
+
         String token = responseBody['data']['token'];
         sharedPref.setString(ProfileViewState.tokenKey, token);
+
+        int role = responseBody["data"]["role"]["id"];
+        sharedPref.setInt(SplashScreenState.loggedInRole, role);
+
         String userName = responseBody['data']['name'];
         sharedPref.setString(UserData.NAMEKEY, userName);
         String userEmail = responseBody['data']['email'];
