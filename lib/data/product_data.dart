@@ -1,194 +1,225 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-
-var ProductData;
-
-Future<void> getDummyUser() async {
-  var url = Uri.parse("https://jsonplaceholder.typicode.com/users");
-  try {
-    var response = await http.get(url);
-    if (response.statusCode == 200) {
-      ProductData = jsonDecode(response.body);
-    } else {
-      print("Failed to get user. Status code: ${response.statusCode}");
-    }
-  } catch (e) {
-    print("Error occurred: $e");
-  }
-}
-
 List<Map> Products = [
   {
-    "name": "Apple",
-    "category": "Fruits",
-    "price": "199.9",
+    "name": "RIO",
+    "category": "Biscuit",
+    "price": "40.00",
     "image":
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGTiYre_aIbJWugt5CU-Lq671R3sA_HRX-H5So9_z2OQ&s",
-    "status": "Available",
-    "location": "Second Shelf",
-    "description":
-        "Apples are a good source of nutrients, including fiber, vitamin C, and antioxidants which can help support healthy digestion, brain health, and weight management.",
+        "https://scan-and-go.ventocleancanada.com/storage/uploads/images/BJasS0VF1xQE45UJofWamyoEeCppyBflIoZ3fLRI.png",
+    "status": "available",
+    "location": "2024-07-29:00:05:48",
+    "description": "Stawberry flavour",
     "isFavorite": false,
   },
   {
-    "name": "Banana",
-    "category": "Fruits",
-    "price": "149.5",
+    "name": "Gala",
+    "category": "Biscuit",
+    "price": "40.00",
     "image":
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Banana-Single.jpg/1024px-Banana-Single.jpg",
-    "status": "Available",
-    "location": "Fruit Section",
-    "description":
-        "Bananas are rich in potassium, vitamin C, and vitamin B6. They are a convenient and nutritious snack.",
+        "https://scan-and-go.ventocleancanada.com/storage/uploads/images/FGAKJwWcg6ixx90XgzDRTdqLiylLCgDozXLR2M4i.jpg",
+    "status": "available",
+    "location": "2024-07-28:12:28:57",
+    "description": "Egg biscuit",
     "isFavorite": false,
   },
   {
-    "name": "Milk",
-    "category": "Dairy",
-    "price": "299.0",
+    "name": "Kurkure",
+    "category": "Snacks",
+    "price": "20.00",
     "image":
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStOZ-9BIlFdjxa6qcYq8cYSEBeciRH1yc05wSSKGHVXQ&s",
-    "status": "Available",
-    "location": "Dairy Aisle",
-    "description":
-        "Milk is a good source of calcium and protein, essential for bone health and muscle repair.",
+        "https://scan-and-go.ventocleancanada.com/storage/uploads/images/zljC9mdAv4omHAI3AuJDSh9K5n8ZouJL7SIQYaFk.jpg",
+    "status": "available",
+    "location": "2024-07-29:00:05:48",
+    "description": "Chilli Flavour Spicy",
     "isFavorite": false,
   },
   {
-    "name": "Eggs",
-    "category": "Dairy",
-    "price": "399.9",
+    "name": "Nexton",
+    "category": "Baby",
+    "price": "499.00",
     "image":
-        "https://static.vecteezy.com/system/resources/previews/022/794/153/non_2x/eggs-in-the-basket-free-png.png",
-    "status": "Available",
-    "location": "Refrigerated Section",
-    "description":
-        "Eggs are a versatile food rich in protein, vitamins, and minerals. They can be cooked in various ways.",
+        "https://scan-and-go.ventocleancanada.com/storage/uploads/images/2bZn9x9CIpFrkVG3Dm4OYcAzkKxS0rlF1sATxsWI.jpg",
+    "status": "available",
+    "location": "2024-07-28:12:39:32",
+    "description": "Olive Mousturizing Cream",
     "isFavorite": false,
   },
   {
-    "name": "Bread",
-    "category": "Bakery",
-    "price": "99.9",
-    "image":
-        "https://www.healthline.com/hlcmsresource/images/AN_images/AN120-Whole-Wheat-Bread-732x549-Thumb.jpg",
-    "status": "Available",
-    "location": "Bakery Section",
-    "description":
-        "Bread is a staple food made from flour, yeast, water, and salt. It's a source of carbohydrates and provides energy.",
-    "isFavorite": false,
-  },
-  {
-    "name": "Beaf",
-    "category": "Meat",
-    "price": "599.9",
-    "image":
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQ1c6KQSQMdqTsMSpDAZ5J3aEwJEektwdT1DI2NL7CpA&s",
-    "status": "Available",
-    "location": "Meat Department",
-    "description":
-        "Chicken breast is a lean source of protein, low in fat and calories. It's versatile and can be cooked in various dishes.",
-    "isFavorite": false,
-  },
-  {
-    "name": "Spinach",
-    "category": "Vegetables",
-    "price": "249.9",
-    "image":
-        "https://www.healthline.com/hlcmsresource/images/AN_images/AN71-Spinach-732x549-thumb.jpg",
-    "status": "Available",
-    "location": "Produce Section",
-    "description":
-        "Spinach is a leafy green vegetable rich in iron, vitamins, and antioxidants. It's beneficial for overall health.",
-    "isFavorite": false,
-  },
-  {
-    "name": "Tomatoes",
-    "category": "Vegetables",
-    "price": "179.9",
-    "image":
-        "https://www.healthline.com/hlcmsresource/images/AN_images/AN54-Tomatoes-732x549-Thumb.jpg",
-    "status": "Available",
-    "location": "Produce Section",
-    "description":
-        "Tomatoes are rich in vitamins and antioxidants. They can be eaten raw in salads or cooked in various dishes.",
-    "isFavorite": false,
-  },
-  {
-    "name": "Coffee",
+    "name": "Bigg",
     "category": "Beverages",
-    "price": "499.9",
+    "price": "140.00",
     "image":
-        "https://www.healthline.com/hlcmsresource/images/AN_images/AN14-Cup-of-Coffee-732x549-thumb.jpg",
-    "status": "Available",
-    "location": "Beverages Aisle",
-    "description":
-        "Coffee is a popular beverage made from roasted coffee beans. It contains caffeine and antioxidants.",
+        "https://scan-and-go.ventocleancanada.com/storage/uploads/images/fOqUqyd1qK9ZHaSCA5zKSbsaulMGZg6n6TX6hKu2.png",
+    "status": "available",
+    "location": "2024-07-28:12:53:05",
+    "description": "Soft Drink",
     "isFavorite": false,
   },
   {
-    "name": "Orange",
+    "name": "Mozzarella",
+    "category": "Dairy",
+    "price": "600.00",
+    "image":
+        "https://scan-and-go.ventocleancanada.com/storage/uploads/images/P9d4RT1cuEolrcByoq6SKgEwdTzExzcH1dVcXwXT.png",
+    "status": "available",
+    "location": "2024-07-28:12:57:42",
+    "description": "Best Use for Pizza",
+    "isFavorite": false,
+  },
+  {
+    "name": "Pakola",
     "category": "Beverages",
-    "price": "249.9",
+    "price": "100.00",
     "image":
-        "https://www.healthline.com/hlcmsresource/images/AN_images/AN39-Orange-Juice-732x549-thumb.jpg",
-    "status": "Available",
-    "location": "Beverages Aisle",
-    "description":
-        "Orange juice is a refreshing beverage rich in vitamin C and other nutrients. It's a popular breakfast drink.",
+        "https://scan-and-go.ventocleancanada.com/storage/uploads/images/eAPW1qpA351z9j13qTeI5h2ky2x7u8vvlomNx8DB.png",
+    "status": "available",
+    "location": "2024-07-28:13:03:49",
+    "description": "Pakola Zafran Almond & Cardamom Flavored Milk, 235ml",
     "isFavorite": false,
-  }
-];
-
-List<Map<String, dynamic>> categories = [
-  {
-    "title": "Fruits",
-    "image":
-        "https://static.wixstatic.com/media/6d3e87_fccea9f825fe4bb5b6f09e9ebb86aabd~mv2.png/v1/fill/w_557,h_414,al_c,lg_1,q_85/6d3e87_fccea9f825fe4bb5b6f09e9ebb86aabd~mv2.png"
   },
   {
-    "title": "Vegetables",
+    "name": "Half",
+    "category": "Grocery",
+    "price": "353.00",
     "image":
-        "https://image.freepik.com/free-vector/vegetables-background_23-2147504248.jpg"
+        "https://scan-and-go.ventocleancanada.com/storage/uploads/images/BD22H41CHZMN7H78oo6I6mVNIEJvudiV3kTmcjAj.png",
+    "status": "available",
+    "location": "2024-07-28:13:14:22",
+    "description": "Half Spoon Granulated Sugar Pouch, 500g",
+    "isFavorite": false,
   },
   {
-    "title": "Dairy",
+    "name": "Honey",
+    "category": "Grocery",
+    "price": "1500.00",
     "image":
-        "https://static.vecteezy.com/system/resources/thumbnails/035/642/273/small/ai-generated-egg-in-carton-free-png.png"
+        "https://scan-and-go.ventocleancanada.com/storage/uploads/images/kQQv2co5ugTk62plJGa7dpDvVbRdSXLwZ2Tg3FZ9.png",
+    "status": "available",
+    "location": "2024-07-28:13:21:33",
+    "description": "Swat Beri Honey Jar, 500g",
+    "isFavorite": false,
   },
   {
-    "title": "Meat",
+    "name": "Vanilla",
+    "category": "Grocery",
+    "price": "150.00",
     "image":
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQ1c6KQSQMdqTsMSpDAZ5J3aEwJEektwdT1DI2NL7CpA&s"
+        "https://scan-and-go.ventocleancanada.com/storage/uploads/images/QmEKjoTZmC5cG71gN8PgSU8cbbvIzqoFNaECr8ol.png",
+    "status": "available",
+    "location": "2024-07-28:13:25:47",
+    "description": "Italiano Vanilla Custard Powder, 275g",
+    "isFavorite": false,
   },
   {
-    "title": "Bakery",
+    "name": "LOREAL",
+    "category": "Personal",
+    "price": "800.00",
     "image":
-        "https://image.freepik.com/free-vector/bakery-background_23-2148245683.jpg"
+        "https://scan-and-go.ventocleancanada.com/storage/uploads/images/0vUPtc0OkPT0xMKPiskBS4pUSqoUq2YylMdrspww.png",
+    "status": "available",
+    "location": "2024-07-28:13:30:43",
+    "description":
+        "L'OREAL PARIS ELVIVE HYALURON MOISTURE 72H MOISTURE FILLING SHAMPOO, 360ML",
+    "isFavorite": false,
   },
   {
-    "title": "Beverages",
+    "name": "Johnson's",
+    "category": "Baby",
+    "price": "700.00",
     "image":
-        "https://image.freepik.com/free-vector/different-types-drinks_23-2147651837.jpg"
+        "https://scan-and-go.ventocleancanada.com/storage/uploads/images/KhG56yuL1jDygaeSGjJQ6AXhhDuEe7U7Hxyt9I6H.png",
+    "status": "available",
+    "location": "2024-07-28:13:34:13",
+    "description": "JOHNSON'S BABY SHAMPOO, UAE, 200ML",
+    "isFavorite": false,
   },
   {
-    "title": "Snacks",
+    "name": "L'Oreal",
+    "category": "Personal",
+    "price": "1900.00",
     "image":
-        "https://image.freepik.com/free-vector/snacks-background-template_23-2148240884.jpg"
+        "https://scan-and-go.ventocleancanada.com/storage/uploads/images/Y3KYSke2wTH13hVqcM3YRlL3PjjqDuwLpA1Kv9rz.png",
+    "status": "available",
+    "location": "2024-07-28:13:38:20",
+    "description":
+        "L'OREAL PARIS ELVIVE TOTAL REPAIR 5 DAMAGED HAIR STYLING CREAM, 300ML",
+    "isFavorite": false,
   },
   {
-    "title": "Frozen Foods",
+    "name": "BREMOD",
+    "category": "Personal",
+    "price": "1850.00",
     "image":
-        "https://image.freepik.com/free-vector/frozen-food-background-template_23-2148262186.jpg"
+        "https://scan-and-go.ventocleancanada.com/storage/uploads/images/aV15c4Gs7JEVKyZCS7DrPyMizURPLgrpa9YzZeAk.png",
+    "status": "available",
+    "location": "2024-07-28:13:41:34",
+    "description": "BREMOD VITAMIN B5 AND KERATIN TREATMENT, 500ML",
+    "isFavorite": false,
   },
   {
-    "title": "Canned Goods",
+    "name": "Muicin",
+    "category": "Hair",
+    "price": "3000.00",
     "image":
-        "https://image.freepik.com/free-vector/canned-foods-background-template_23-2148245872.jpg"
+        "https://scan-and-go.ventocleancanada.com/storage/uploads/images/pL9eTFFzMTw8UBpbwIMJam7Etup547F09f7bTNT9.png",
+    "status": "available",
+    "location": "2024-07-28T13:44:39.000000Z",
+    "description":
+        "MUICIN SHINE & STYLE STRAIGHTENING KERATIN & PROTEIN HAIR SERUM, 50ML",
+    "isFavorite": false,
   },
   {
-    "title": "Condiments",
+    "name": "Mineral",
+    "category": "Beverages",
+    "price": "60.00",
     "image":
-        "https://image.freepik.com/free-vector/condiments-background-template_23-2148245680.jpg"
-  }
+        "https://scan-and-go.ventocleancanada.com/storage/uploads/images/a30G1T2yDpOOk1L8HSP3Z82d4vgPbJ83ewXjqgeV.png",
+    "status": "available",
+    "location": "2024-07-28:13:54:57",
+    "description": "MINERAL WATER SMALL",
+    "isFavorite": false,
+  },
+  {
+    "name": "Aqua",
+    "category": "Beverages",
+    "price": "50.00",
+    "image":
+        "https://scan-and-go.ventocleancanada.com/storage/uploads/images/rDba3uhlgdyX79CNRckHExa7JKQykqzYigcZDhlX.png",
+    "status": "available",
+    "location": "2024-07-28:13:59:44",
+    "description": "AQUA FINA",
+    "isFavorite": false,
+  },
+  {
+    "name": "Big",
+    "category": "Beverages",
+    "price": "90.00",
+    "image":
+        "https://scan-and-go.ventocleancanada.com/storage/uploads/images/fOqUqyd1qK9ZHaSCA5zKSbsaulMGZg6n6TX6hKu2.png",
+    "status": "available",
+    "location": "2024-07-28:14:04:51",
+    "description": "BIGG LYCHEE SOFT DRINK",
+    "isFavorite": false,
+  },
+  {
+    "name": "Chicken",
+    "category": "Food",
+    "price": "90.00",
+    "image":
+        "https://scan-and-go.ventocleancanada.com/storage/uploads/images/8XYBGvxPfXuZPs6pjLQWnnDkhqmkTOn5zQq5VR4r.png",
+    "status": "available",
+    "location": "2024-07-28:14:09:02",
+    "description": "YOUNGS CHICKEN SPREAD",
+    "isFavorite": false,
+  },
+  {
+    "name": "BBQ",
+    "category": "Sauces",
+    "price": "100.00",
+    "image":
+        "https://scan-and-go.ventocleancanada.com/storage/uploads/images/HVrTG0ooE33qKeJEDw8KFehz9tq87tNG4Qs9i8DZ.png",
+    "status": "available",
+    "location": "2024-07-28:14:14:41",
+    "description": "YOUNGS BBQ SAUCE",
+    "isFavorite": false,
+  },
 ];

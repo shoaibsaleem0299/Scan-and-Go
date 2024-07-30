@@ -8,7 +8,6 @@ import 'package:frontend/screens/profile_screen/history_screen.dart';
 import 'package:frontend/screens/profile_screen/payment_screen.dart';
 import 'package:frontend/screens/profile_screen/widget/custom_product_tile.dart';
 import 'package:frontend/screens/splash_screen/splash_view.dart';
-import 'package:frontend/widgets/app_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -87,7 +86,7 @@ class ProfileScreen extends StatelessWidget {
                       },
                     ),
                     CustomProfileTile(
-                      title: "History",
+                      title: "Order History",
                       prefixIcon: "history",
                       onTap: () {
                         Navigator.push(
@@ -108,21 +107,28 @@ class ProfileScreen extends StatelessWidget {
                         );
                       },
                     ),
-                    AppButton(
-                        buttonText: "Sign Out",
-                        onButtonTap: () async {
-                          var sharePref = await SharedPreferences.getInstance();
-                          sharePref.setString(
-                              SplashScreenState.loggedInKey, "");
+                    IconButton(
+                      onPressed: () async {
+                        var sharePref = await SharedPreferences.getInstance();
+                        sharePref.setString(SplashScreenState.loggedInKey, "");
 
-                          Navigator.pushReplacement(
-                            // ignore: use_build_context_synchronously
-                            context,
-                            MaterialPageRoute(
-                              builder: ((context) => const LogIn()),
-                            ),
-                          );
-                        }),
+                        Navigator.pushReplacement(
+                          // ignore: use_build_context_synchronously
+                          context,
+                          MaterialPageRoute(
+                            builder: ((context) => const LogIn()),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.logout),
+                      padding: const EdgeInsets.all(12.0),
+                      color: Colors.white,
+                      style: ButtonStyle(
+                        backgroundColor: WidgetStateProperty.all<Color>(
+                          const Color.fromARGB(255, 188, 23, 23),
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),

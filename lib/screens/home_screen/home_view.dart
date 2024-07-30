@@ -18,6 +18,7 @@ class HomeView extends StatefulWidget {
 
 class HomeViewState extends State<HomeView> {
   List<Product> favorites = [];
+
   static String name = "Username";
   static String email = "User Email";
 
@@ -132,7 +133,7 @@ class HomeViewState extends State<HomeView> {
                 child: Column(
                   children: [
                     HeadingTile(
-                      title: "Recommended For You",
+                      title: "Popular",
                       goTO: () {
                         Navigator.push(
                           context,

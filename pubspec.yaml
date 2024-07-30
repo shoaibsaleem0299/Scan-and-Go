@@ -36,16 +36,24 @@ dependencies:
   flutter_barcode_scanner: ^2.0.0
   cupertino_icons: ^1.0.6
   curved_navigation_bar: ^1.0.3
-  http: ^1.2.1
+  http: ^1.2.2
   expandable: ^5.0.1
   dio: ^5.4.3+1
   shared_preferences: ^2.2.3
   pusher_channels_flutter: ^2.2.1
   flutter_local_notifications: ^17.2.1+2
+  qr_flutter: ^4.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.13.1"
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/Images/Icon.jpg"
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -69,6 +77,7 @@ flutter:
   assets:
     - assets/images/app_image.png
     - assets/images/Sample_User_Icon.png
+    - assets/images/app_logo.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

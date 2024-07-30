@@ -33,7 +33,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
           },
         ),
       );
-      print(response.data);
 
       if (response.statusCode == 200) {
         setState(() {
@@ -70,23 +69,28 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 itemCount: orderReceipts.length,
                 itemBuilder: (context, index) {
                   final order = orderReceipts[index];
-                  return ListTile(
-                    title: Text('Order ID: ${order['id']}'),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Total Amount: \$${order['total_amount']}'),
-                        Text('Status: ${order['status']}'),
-                      ],
-                    ),
-                    isThreeLine: true,
-                    trailing: Icon(
-                      order['status'] == 'PAID'
-                          ? Icons.check_circle
-                          : Icons.hourglass_empty,
-                      color: order['status'] == 'PAID'
-                          ? Colors.green
-                          : Colors.orange,
+                  return Container(
+                    margin: EdgeInsets.only(bottom: 3),
+                    padding: EdgeInsets.all(12),
+                    color: const Color.fromARGB(255, 235, 227, 227),
+                    child: ListTile(
+                      title: Text('Order ID: ${order['id']}'),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Total Amount: \$${order['total_amount']}'),
+                          Text('Status: ${order['status']}'),
+                        ],
+                      ),
+                      isThreeLine: true,
+                      trailing: Icon(
+                        order['status'] == 'PAID'
+                            ? Icons.check_circle
+                            : Icons.hourglass_empty,
+                        color: order['status'] == 'PAID'
+                            ? Colors.green
+                            : Colors.orange,
+                      ),
                     ),
                   );
                 },

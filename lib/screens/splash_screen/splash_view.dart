@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/constants/app_colors.dart';
 import 'package:frontend/screens/guard_profile_screen/guard_view.dart';
 import 'package:frontend/screens/login_screen/login.dart';
 import 'package:frontend/screens/navigation_screen/navigation_view.dart';
@@ -29,15 +28,10 @@ class SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.primary,
-      body: const Center(
-        child: Text(
-          "Scan and Go",
-          style: TextStyle(
-            fontSize: 28,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
+      body: Center(
+        child: Image.asset(
+          'assets/images/app_logo.png',
+          width: 250,
         ),
       ),
     );
@@ -50,7 +44,7 @@ class SplashScreenState extends State<SplashScreen> {
     var isLoggedIn =
         isLoggedInString != null ? isLoggedInString == 'true' : null;
 
-    await Future.delayed(const Duration(milliseconds: 500), () {});
+    await Future.delayed(const Duration(milliseconds: 2000), () {});
     if (isLoggedIn != null) {
       if (isLoggedIn) {
         if (isLoggedInRole == 3) {

@@ -163,7 +163,8 @@ class _ShopingCartViewState extends State<ShopingCartView> {
                         Products product = userCart.data!.products![index];
                         return CustomCartItem(
                           imageUrl:
-                              "${AppURL.BaseURL}/${product.featureImage}" ?? "",
+                              "${AppURL.BaseURL}/storage/${product.featureImage['path']}" ??
+                                  "",
                           title: product.name ?? "",
                           price: product.salePrice ?? "",
                           quantity: product.pivot?.quantity ?? 0,

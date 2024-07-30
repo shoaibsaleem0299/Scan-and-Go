@@ -17,8 +17,8 @@ class AppButton extends StatelessWidget {
       height: 35,
       child: ElevatedButton(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(AppColor.primary),
-          shape: MaterialStatePropertyAll(
+          backgroundColor: WidgetStateProperty.all<Color>(AppColor.primary),
+          shape: WidgetStatePropertyAll(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(6))),
         ),
         onPressed: onButtonTap,

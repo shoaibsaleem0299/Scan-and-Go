@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/constants/app_colors.dart';
 import 'package:frontend/screens/home_screen/home_view.dart';
 import 'package:frontend/screens/profile_screen/profile_screen.dart';
+import 'package:frontend/screens/qr_code_screen/qrcode_screen.dart';
 import 'package:frontend/screens/recommended_screen/recommend_products.dart';
 import 'package:frontend/screens/scan_screen/scan_view.dart';
 import 'package:frontend/screens/shopping_cart_screen/shoping_cart_view.dart';
@@ -19,7 +20,7 @@ class _NavigationViewState extends State<NavigationView> {
 
   static const List<Widget> _screens = [
     HomeView(),
-    RecommendedProducts(),
+    QRCodeScreen(),
     ScanView(),
     ShopingCartView(),
     ProfileScreen(),
@@ -48,7 +49,7 @@ class _NavigationViewState extends State<NavigationView> {
         animationDuration: const Duration(milliseconds: 399),
         items: const <Widget>[
           Icon(Icons.home, size: 26, color: Colors.white),
-          Icon(Icons.favorite, size: 26, color: Colors.white),
+          Icon(Icons.exit_to_app, size: 26, color: Colors.white),
           Icon(Icons.qr_code_scanner_outlined, size: 26, color: Colors.white),
           Icon(Icons.shopping_cart, size: 26, color: Colors.white),
           Icon(Icons.person, size: 26, color: Colors.white),

@@ -1,3 +1,5 @@
+import 'package:frontend/constants/app_urls.dart';
+
 class UserCart {
   String? status;
   int? code;
@@ -145,7 +147,24 @@ class Products {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     pivot = json['pivot'] != null ? Pivot.fromJson(json['pivot']) : null;
-    featureImage = json['feature_image'];
+
+    // Add base URL to featureImage if it's a Map
+    if (json['feature_image'] != null &&
+        json['feature_image'] is Map<String, dynamic>) {
+      var image = json['feature_image'];
+      featureImage = {
+        'id': image['id'],
+        'path': "${AppURL.BaseURL}/storage/${image['path']}",
+        'type': image['type'],
+        'imageable_type': image['imageable_type'],
+        'imageable_id': image['imageable_id'],
+        'deleted_at': image['deleted_at'],
+        'created_at': image['created_at'],
+        'updated_at': image['updated_at'],
+      };
+    } else {
+      featureImage = json['feature_image'];
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -167,7 +186,22 @@ class Products {
     if (pivot != null) {
       data['pivot'] = pivot!.toJson();
     }
-    data['feature_image'] = featureImage;
+    // Ensure feature_image is correctly serialized
+    if (featureImage != null && featureImage is Map<String, dynamic>) {
+      var image = featureImage as Map<String, dynamic>;
+      data['feature_image'] = {
+        'id': image['id'],
+        'path': image['path'].replaceFirst("${AppURL.BaseURL}/storage/", ""),
+        'type': image['type'],
+        'imageable_type': image['imageable_type'],
+        'imageable_id': image['imageable_id'],
+        'deleted_at': image['deleted_at'],
+        'created_at': image['created_at'],
+        'updated_at': image['updated_at'],
+      };
+    } else {
+      data['feature_image'] = featureImage;
+    }
     return data;
   }
 }

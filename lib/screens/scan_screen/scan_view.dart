@@ -182,7 +182,7 @@ class _ScanViewState extends State<ScanView> {
                             description:
                                 product.data!.description ?? "Description",
                             imageUrl:
-                                "${AppURL.BaseURL}/${product.data!.featureImage}" ??
+                                "${AppURL.BaseURL}/storage/${product.data!.featureImage}" ??
                                     "Category",
                             initialPrice: product.data!.salePrice ?? "0.0",
                             initialQuantity: 1,

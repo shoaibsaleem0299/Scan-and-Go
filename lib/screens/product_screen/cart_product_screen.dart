@@ -92,24 +92,23 @@ class CartProductView extends StatelessWidget {
               Text(
                 category,
                 style: const TextStyle(
-                  color: Colors.grey,
-                  fontSize: 16,
+                  color: Colors.black,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 10),
               Text(
                 "Status: ${statusUpdate(status!)}",
                 style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
+                  fontSize: 16,
                 ),
               ),
               const SizedBox(height: 5),
               Text(
                 "Location: $location",
                 style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
+                  fontSize: 16,
                 ),
               ),
               const SizedBox(height: 10),

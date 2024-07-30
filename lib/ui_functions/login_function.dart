@@ -76,6 +76,7 @@ import 'package:frontend/constants/app_urls.dart';
 import 'package:frontend/screens/guard_profile_screen/guard_view.dart';
 import 'package:frontend/screens/navigation_screen/navigation_view.dart';
 import 'package:frontend/screens/profile_screen/profile_view.dart';
+import 'package:frontend/screens/qr_code_screen/qrcode_screen.dart';
 import 'package:frontend/screens/splash_screen/splash_view.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -117,6 +118,9 @@ class LoginFunction {
         int role = responseBody["data"]["role"]["id"];
         sharedPref.setInt(SplashScreenState.loggedInRole, role);
 
+        int userId = responseBody["data"]["user_id"];
+        sharedPref.setInt(QRCodeScreenState.userIdKey, userId);
+
         String userName = responseBody['data']['name'];
         sharedPref.setString(UserData.NAMEKEY, userName);
         String userEmail = responseBody['data']['email'];
@@ -147,7 +151,7 @@ class LoginFunction {
       }
     } catch (e) {
       setErrorMessage("Credentials Not Matched!");
-      emailController.clear();
+      // emailController.clear();
       passwordController.clear();
     }
   }

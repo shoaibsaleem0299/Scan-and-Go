@@ -12,7 +12,9 @@ class ScanAndGO extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(title: "Scan And Go", home: SplashScreen());
-    // home: GuardView());
+    return const MaterialApp(
+      title: "Scan And Go",
+      home: SplashScreen(),
+    );
   }
 }
